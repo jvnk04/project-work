@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Crisi 2007-2012 - Sezione 6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f7f8fc; --bg-2:#eef0f6; --bg-dark:#0d1117; --bg-dark-2:#131926; --bg-card:#ffffff;
+      --accent:#c8a96e; --accent-2:#1d4ed8; --accent-hover:#e0bf80;
+      --red:#ef4444;
+      --text:#1a1f2e; --text-muted:#6b7280;
+      --border:rgba(0,0,0,0.07); --border-dark:rgba(255,255,255,0.07);
+      --radius:14px;
+      --font-display:"Playfair Display",Georgia,serif;
+      --font-body:"DM Sans",system-ui,sans-serif;
+      --shadow-sm:0 2px 12px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.65;}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(247,248,252,0.95);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-db{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-weight:500;font-size:15px;color:var(--text);letter-spacing:.02em;}
+    .nav-links{display:flex;gap:20px;}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-back:hover{color:var(--accent);}
+    .hero{background:var(--bg-dark);padding:140px 60px 88px;position:relative;overflow:hidden;}
+    .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    .hero::after{content:"";position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(239,68,68,.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px;position:relative;z-index:1;animation:fadeUp .8s ease both;}
+    .hero-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;font-weight:500;}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,78px);font-weight:900;line-height:.92;color:white;letter-spacing:-.02em;}
+    .hero-title em{font-style:italic;color:#f87171;}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.42);margin-top:22px;max-width:500px;line-height:1.75;font-weight:300;}
+    .hero-source{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2);border-radius:10px;padding:18px 24px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;text-align:right;line-height:1.9;white-space:nowrap;}
+    .hero-source strong{color:var(--accent);display:block;font-size:12px;margin-bottom:4px;}
+    .sec-light{background:var(--bg);padding:80px 60px;}
+    .sec-alt{background:var(--bg-2);padding:80px 60px;}
+    .sec-dark{background:var(--bg-dark);padding:80px 60px;}
+    .sec-inner{max-width:1100px;margin:0 auto;}
+    .sec-head{margin-bottom:44px;}
+    .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:500;margin-bottom:10px;display:block;}
+    .sec-label--gold{color:var(--accent);}
+    .sec-label--red{color:#f87171;}
+    .sec-title{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:10px;}
+    .sec-title--white{color:white;}
+    .sec-desc{font-size:14px;color:var(--text-muted);max-width:640px;line-height:1.8;}
+    .sec-desc--white{color:rgba(255,255,255,.38);}
+    /* KPI */
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;margin-bottom:48px;}
+    .kpi-item{padding:24px 18px;border-right:1px solid var(--border-dark);text-align:center;}
+    .kpi-item:last-child{border-right:none;}
+    .kpi-val{font-family:var(--font-display);font-size:24px;font-weight:700;}
+    .kpi-val--red{color:#f87171;}
+    .kpi-val--gold{color:var(--accent);}
+    .kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:5px;line-height:1.5;}
+    /* TIMELINE */
+    .timeline{position:relative;padding-left:36px;}
+    .timeline::before{content:"";position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,#ef4444 0%,rgba(239,68,68,.15) 70%,var(--accent) 100%);}
+    .tl-item{position:relative;margin-bottom:0;}
+    .tl-dot{position:absolute;left:-30px;top:26px;width:14px;height:14px;border-radius:50%;border:2px solid #ef4444;background:var(--bg-2);}
+    .tl-dot--active{background:#ef4444;}
+    .tl-dot--gold{border-color:var(--accent);background:var(--accent);}
+    .tl-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:26px 28px;margin-bottom:18px;box-shadow:var(--shadow-sm);transition:border-color .2s;}
+    .tl-card:hover{border-color:rgba(239,68,68,.2);}
+    .tl-card--dark{background:var(--bg-dark-2);border:1px solid var(--border-dark);}
+    .tl-card--dark:hover{border-color:rgba(200,169,110,.2);}
+    .tl-card--gold{border-left:3px solid var(--accent);}
+    .tl-year{display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:24px;border-radius:6px;background:rgba(239,68,68,.1);color:#f87171;font-size:12px;font-weight:700;letter-spacing:.06em;margin-bottom:12px;}
+    .tl-year--gold{background:rgba(200,169,110,.12);color:var(--accent);}
+    .tl-card p{font-size:13.5px;color:var(--text-muted);line-height:1.85;}
+    .tl-card--dark p{color:rgba(255,255,255,.55);}
+    .tl-card strong{color:var(--text);}
+    .tl-card--dark strong{color:rgba(255,255,255,.82);}
+    /* STRATEGY */
+    .strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .strat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:26px 24px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+    .strat-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-hover));}
+    .strat-icon{font-size:24px;margin-bottom:12px;}
+    .strat-title{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .strat-text{font-size:13.5px;color:var(--text-muted);line-height:1.75;}
+    /* NCOU */
+    .ncou-box{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;}
+    .ncou-header{background:rgba(239,68,68,.07);border-bottom:1px solid var(--border-dark);padding:22px 32px;display:flex;align-items:center;gap:16px;}
+    .ncou-icon{width:40px;height:40px;border-radius:9px;background:rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+    .ncou-title{font-family:var(--font-display);font-size:19px;font-weight:700;color:white;}
+    .ncou-sub{font-size:11px;color:rgba(255,255,255,.3);margin-top:2px;}
+    .ncou-body{padding:28px 32px;}
+    .ncou-body p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.85;margin-bottom:14px;}
+    .ncou-body p:last-child{margin-bottom:0;}
+    .ncou-body strong{color:rgba(255,255,255,.82);}
+    .ncou-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .ncou-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:40px;font-size:12px;font-weight:500;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.22);color:#f87171;}
+    /* COMMENT */
+    .comment{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-left:3px solid var(--accent);border-radius:var(--radius);padding:28px 34px;}
+    .comment p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:10px;}
+    .comment p:last-child{margin-bottom:0;}
+    .comment strong{color:rgba(255,255,255,.82);}
+    .comment--red{border-left-color:#ef4444;}
+    /* FONTI */
+    .fonti-box{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);padding:22px 28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+    .fonti-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-right:4px;flex-shrink:0;}
+    .fonte-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:40px;font-size:11px;background:rgba(255,255,255,.04);border:1px solid var(--border-dark);color:rgba(255,255,255,.42);}
+    /* FOOTER */
+    .footer{background:var(--bg-dark);padding:40px 60px;border-top:1px solid var(--border-dark);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .footer-logo{display:flex;align-items:center;gap:10px;}
+    .footer-note{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
+    .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);padding:8px 18px;border-radius:40px;transition:all .2s;}
+    .footer-back:hover{background:rgba(200,169,110,.08);}
+    .reveal{opacity:0;transform:translateY(18px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){
+      .navbar{padding:16px 24px;}.nav-links{display:none;}
+      .hero{padding:120px 24px 64px;}.hero-inner{grid-template-columns:1fr;gap:28px;}.hero-source{text-align:left;white-space:normal;}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px;}
+      .strategy-grid{grid-template-columns:1fr;}
+      .kpi-strip{grid-template-columns:repeat(2,1fr);}
+      .footer-inner{flex-direction:column;gap:20px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo"><span class="logo-db">DB</span><span class="logo-text">Deutsche Bank</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sistema-finanziario.html">Sist. Finanziario</a>
+    <a href="sistema-bancario.html">Sist. Bancario</a>
+    <a href="quote-mercato.html">Quote</a>
+    <a href="business-model.html">Business Model</a>
+    <a href="struttura-organizzativa.html">Struttura Org.</a>
+    <a href="crisi.html" class="active">Crisi</a>
+  </nav>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Indice
+  </a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 06 &middot; Project Work &middot; Crisi Finanziaria</span>
+      <h1 class="hero-title">Crisi<br><em>2007&ndash;2012</em></h1>
+      <p class="hero-sub">Impatto della crisi finanziaria globale e del debito sovrano su Deutsche Bank: timeline, perdite, risposte strategiche e trasformazione del modello di business.</p>
+    </div>
+    <div class="hero-source">
+      <strong>Fonte dati</strong>
+      Annual Report Deutsche Bank 2008&ndash;2012<br>
+      Financial Times &middot; Comunicati Stampa<br>
+      Strategy 2015+ &middot; NCOU (dic. 2012)
+    </div>
+  </div>
+</section>
+
+<!-- KPI -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--red">Impatto Quantitativo</span>
+      <h2 class="sec-title sec-title--white">I Numeri della Crisi</h2>
+      <p class="sec-desc sec-desc--white">Le cifre chiave dell&rsquo;impatto della crisi finanziaria 2007&ndash;2009 su Deutsche Bank. Fonte: Annual Report Deutsche Bank 2008&ndash;2012.</p>
+    </div>
+    <div class="kpi-strip reveal">
+      <div class="kpi-item"><div class="kpi-val kpi-val--red">&minus;&euro;3.9B</div><div class="kpi-lbl">Perdita netta 2008</div></div>
+      <div class="kpi-item"><div class="kpi-val kpi-val--red">&minus;&euro;4.8B</div><div class="kpi-lbl">Perdita Q4 2008</div></div>
+      <div class="kpi-item"><div class="kpi-val kpi-val--gold">&euro;4.9B</div><div class="kpi-lbl">Aumento capitale 2009</div></div>
+      <div class="kpi-item"><div class="kpi-val kpi-val--gold">&euro;10.2B</div><div class="kpi-lbl">Aumento capitale 2011</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--red">Cronologia</span>
+      <h2 class="sec-title">Timeline delle Crisi &middot; 2007&ndash;2012</h2>
+      <p class="sec-desc">Evoluzione anno per anno dell&rsquo;impatto della crisi finanziaria globale e del debito sovrano europeo su Deutsche Bank.</p>
+    </div>
+    <div class="timeline reveal">
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot--active"></div>
+        <div class="tl-card">
+          <div class="tl-year">2007</div>
+          <p>Deutsche Bank inizia a subire gli effetti della crisi. L&rsquo;<strong>alta esposizione ai mercati finanziari</strong> &mdash; per via del suo Business Model &mdash; la rende estremamente vulnerabile alla loro volatilit&agrave;. In questo periodo la banca registra <strong>perdite significative su ABS, CDO e leveraged loans</strong>, ma evita un salvataggio pubblico diretto &mdash; a differenza di altre banche europee ed americane &mdash; grazie a una posizione di capitale inizialmente pi&ugrave; solida rispetto ad altri istituti europei.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot--active"></div>
+        <div class="tl-card">
+          <div class="tl-year">2008</div>
+          <p>La crisi esplode dopo il <strong>fallimento di Lehman Brothers</strong>. Deutsche Bank registra una forte perdita nel quarto trimestre, pari a circa <strong>&euro;4,8 miliardi</strong>, e chiude l&rsquo;anno con una <strong>perdita netta di circa &euro;3,9 miliardi</strong>.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-year">2009</div>
+          <p>La banca attutisce lo shock, <strong>tornando in utile</strong>, e dichiara di voler ridurre il profilo di rischio rafforzando l&rsquo;efficienza nell&rsquo;uso del capitale e della leva finanziaria. Deutsche Bank attua un <strong>aumento di capitale da &euro;4,9 miliardi</strong> per sostenere l&rsquo;acquisizione di Postbank (banca retail tedesca) e rafforzare il CET1. Passa dunque a una politica meno aggressiva.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="border-color:var(--accent);"></div>
+        <div class="tl-card tl-card--gold">
+          <div class="tl-year tl-year--gold">2010</div>
+          <p>Inizia la <strong>crisi del debito sovrano europeo</strong>, partita dalla Grecia e poi estesa ad altri Paesi dell&rsquo;area euro. Questo comporta un aumento della pressione politico-istituzionale e finanziaria sulle banche europee. Per Deutsche Bank il problema principale era che i <strong>mercati iniziavano a guardare con sospetto le banche esposte ai Paesi europei</strong>, considerandole meno solide.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot--active"></div>
+        <div class="tl-card">
+          <div class="tl-year">2011</div>
+          <p>La crisi si aggrava. Le banche tedesche risultano particolarmente osservate per la loro <strong>esposizione ai debiti sovrani europei</strong> dei Paesi in crisi. Deutsche Bank viene colpita da un forte aumento di volatilit&agrave; dei mercati (stress sui mercati wholesale) e da crescente pressione regolamentare. In questo periodo attua un <strong>nuovo aumento di capitale da &euro;10,2 miliardi</strong> (308,6 milioni di nuove azioni) per completare l&rsquo;integrazione di Postbank e rafforzare il capitale in vista di <strong>Basilea III</strong>.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot tl-dot--gold"></div>
+        <div class="tl-card tl-card--gold">
+          <div class="tl-year tl-year--gold">2012</div>
+          <p>La crisi del debito sovrano continua a influenzare i mercati monetari dell&rsquo;eurozona. Le misure della BCE, come le operazioni <strong>LTRO</strong> (che sostituiscono il funding di mercato con funding BCE stabile e a basso costo), contribuiscono a stabilizzare il sistema. Nel suo Annual Report 2012 Deutsche Bank dichiara di aver rivisto il proprio business model e di aver sviluppato la strategia <strong>&ldquo;Strategy 2015+&rdquo;</strong> e la cosiddetta <strong>&ldquo;Non-Core Operations Unit&rdquo;</strong>, con l&rsquo;obiettivo di diventare una banca globale pi&ugrave; orientata al cliente e pi&ugrave; sostenibile nel nuovo contesto regolamentare.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STRATEGY 2015+ -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Risposta Strategica &middot; 2012</span>
+      <h2 class="sec-title">Strategy 2015+</h2>
+      <p class="sec-desc">Nel 2012 Deutsche Bank lancia il piano Strategic 2015+, una strategia triennale nata come risposta diretta alle fragilit&agrave; emerse durante la crisi finanziaria globale e la crisi del debito sovrano europeo. Il piano prevedeva quattro punti fondamentali.</p>
+    </div>
+    <div class="strategy-grid reveal">
+      <div class="strat-card">
+        <div class="strat-icon">&#128176;</div>
+        <div class="strat-title">Rafforzamento del Capitale</div>
+        <div class="strat-text">Aumento del CET1 e riduzione del leverage ratio. La banca punta a una base patrimoniale pi&ugrave; solida per assorbire future perdite e rispettare i requisiti di Basilea III, gi&agrave; in fase di implementazione in Europa.</div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-icon">&#128201;</div>
+        <div class="strat-title">Riduzione del Rischio</div>
+        <div class="strat-text">Taglio delle esposizioni pi&ugrave; volatili e de-risking del portafoglio. Riduzione strutturale dell&rsquo;esposizione ad asset rischiosi come ABS, CDO e leveraged loans, che avevano causato le perdite pi&ugrave; significative durante la crisi.</div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-icon">&#127968;</div>
+        <div class="strat-title">Focus sul Business Core</div>
+        <div class="strat-text">Maggiore orientamento su corporate banking, transaction banking e clientela istituzionale. Abbandono progressivo delle attivit&agrave; pi&ugrave; speculative in favore di un modello pi&ugrave; orientato ai servizi e alla relazione con il cliente.</div>
+      </div>
+      <div class="strat-card">
+        <div class="strat-icon">&#9881;&#65039;</div>
+        <div class="strat-title">Efficienza Operativa</div>
+        <div class="strat-text">Riduzione dei costi e semplificazione della struttura organizzativa. Il piano prevede una razionalizzazione della rete operativa globale e una riduzione delle duplicazioni interne per migliorare il rapporto costi/ricavi.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NCOU -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--red">Strumento di Risposta &middot; Dicembre 2012</span>
+      <h2 class="sec-title sec-title--white">Non-Core Operations Unit (NCOU)</h2>
+      <p class="sec-desc sec-desc--white">La &ldquo;bad bank interna&rdquo; creata per isolare e smaltire gli attivi non strategici o ad alto assorbimento di capitale.</p>
+    </div>
+    <div class="ncou-box reveal">
+      <div class="ncou-header">
+        <div class="ncou-icon">&#127968;</div>
+        <div>
+          <div class="ncou-title">Non-Core Operations Unit</div>
+          <div class="ncou-sub">Istituita nel dicembre 2012 &middot; &ldquo;Bad bank interna&rdquo; di Deutsche Bank</div>
+        </div>
+      </div>
+      <div class="ncou-body">
+        <p>Parallelamente al piano strategico, nel 2012 Deutsche Bank istituisce la <strong>Non-Core Operations Unit (NCOU)</strong>, una vera e propria &ldquo;bad bank interna&rdquo; creata per <strong>isolare e smaltire gli attivi non strategici</strong> o ad alto assorbimento di capitale.</p>
+        <p>Dentro questa unit&agrave; venivano inseriti asset problematici che avrebbero continuato a gravare sul bilancio senza contribuire ai ricavi. La logica era semplice: concentrare tutto il &ldquo;peso morto&rdquo; in un&rsquo;unica struttura separata, cos&igrave; da liberare il bilancio principale e consentire alle divisioni operative di operare con maggiore efficienza e trasparenza.</p>
+        <p>Essenzialmente entravano a far parte della NCOU tutte le attivit&agrave; considerate <strong>problematiche o non abbastanza utili</strong>. Cos&igrave; facendo Deutsche Bank riusc&igrave; ad <strong>alleggerire i bilanci</strong>, aumentare la fiducia da parte dei mercati e ridurre i rischi complessivi del gruppo.</p>
+        <div class="ncou-pills">
+          <span class="ncou-pill">Asset rischiosi</span>
+          <span class="ncou-pill">Attivit&agrave; poco redditizie</span>
+          <span class="ncou-pill">Posizioni difficili da vendere</span>
+          <span class="ncou-pill">ABS / CDO / Leveraged loans</span>
+          <span class="ncou-pill">Esposizioni sovrane rischiose</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONSIDERAZIONI FINALI -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Sintesi</span>
+      <h2 class="sec-title">Considerazioni sugli Impatti delle Crisi</h2>
+    </div>
+    <div class="comment comment--red reveal">
+      <p>Le crisi del 2007&ndash;2009 e del debito sovrano hanno rappresentato un <strong>punto di svolta per Deutsche Bank</strong>, evidenziando i limiti di un modello di business fortemente orientato ai mercati dei capitali e dipendente dal wholesale funding. Pur non avendo ricevuto un salvataggio pubblico diretto, la banca ha dovuto affrontare perdite significative, rafforzare il capitale e rivedere la propria strategia.</p>
+      <p>Gli <strong>aumenti di capitale del 2009 (&euro;4.9B) e del 2011 (&euro;10.2B)</strong>, la riduzione delle esposizioni sovrane pi&ugrave; rischiose e il progressivo de-risking del portafoglio hanno contribuito a migliorare la solidit&agrave; del gruppo. Allo stesso tempo, la crisi ha <strong>accelerato la trasformazione verso un modello pi&ugrave; bilanciato</strong>, con un maggiore peso del corporate banking e dei servizi transazionali.</p>
+      <p>Tutt&rsquo;oggi Deutsche Bank continua a basarsi su questi fondamentali, con un modello che ha ridotto sensibilmente l&rsquo;esposizione ai mercati pi&ugrave; volatili e che privilegia la redditivit&agrave; sostenibile rispetto all&rsquo;espansione aggressiva del bilancio. La Strategy 2015+ e la NCOU rappresentano due strumenti complementari che hanno contribuito in modo decisivo a questo cambio di rotta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FONTI -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="fonti-box reveal">
+      <span class="fonti-label">Fonti</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2008</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2009</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2010</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2011</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2012</span>
+      <span class="fonte-pill">Financial Times</span>
+      <span class="fonte-pill">Comunicato Strategy 2015+ (12 set. 2012)</span>
+      <span class="fonte-pill">Comunicato NCOU (dic. 2012)</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-db">DB</span><span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span></div>
+    <p class="footer-note">Progetto Universitario &middot; Sezione 6 &ndash; Crisi 2007&ndash;2012 &middot; 2025</p>
+    <a href="index.html" class="footer-back">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Indice
+    </a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.transition="opacity .55s ease,transform .55s ease";x.target.style.opacity="1";x.target.style.transform="translateY(0)";io.unobserve(x.target);}});},{threshold:.07});
+document.querySelectorAll(".reveal").forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";io.observe(el);});
+</script>
+</body>
+</html>

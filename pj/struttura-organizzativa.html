@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Struttura Organizzativa – Sezione 4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       DESIGN TOKENS — coerente con il sito
+    ═══════════════════════════════════════ */
+    :root {
+      --bg:           #f7f8fc;
+      --bg-2:         #eef0f6;
+      --bg-dark:      #0d1117;
+      --bg-dark-2:    #131926;
+      --bg-card:      #ffffff;
+
+      --accent:       #c8a96e;
+      --accent-2:     #1d4ed8;
+      --accent-hover: #e0bf80;
+
+      --cb:  #c8a96e;   /* Corporate Bank  → oro */
+      --ib:  #3b82f6;   /* Investment Bank → blu */
+      --pb:  #10b981;   /* Private Bank    → verde */
+      --dws: #8b5cf6;   /* DWS Group       → viola */
+
+      --text:       #1a1f2e;
+      --text-muted: #6b7280;
+      --text-light: #9ca3af;
+      --text-white: #f0f4ff;
+
+      --border:      rgba(0,0,0,0.07);
+      --border-dark: rgba(255,255,255,0.07);
+
+      --radius: 14px;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+
+      --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    /* ═══════ NAVBAR ═══════ */
+    .navbar {
+      position: fixed; top:0; left:0; right:0; z-index:1000;
+      display: flex; align-items:center; justify-content:space-between;
+      padding: 18px 60px;
+      background: rgba(247,248,252,0.95);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .logo-db {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:34px; height:34px;
+      background: var(--accent); color:#000;
+      font-family: var(--font-display); font-weight:700; font-size:13px;
+      border-radius:7px;
+    }
+    .logo-text { font-weight:500; font-size:15px; color:var(--text); letter-spacing:.02em; }
+    .nav-links { display:flex; gap:28px; }
+    .nav-links a {
+      text-decoration:none; color:var(--text-muted); font-size:13px;
+      font-weight:400; letter-spacing:.04em; text-transform:uppercase;
+      transition:color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--accent); }
+    .nav-back {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:13px; color:var(--text-muted); text-decoration:none;
+      letter-spacing:.04em; text-transform:uppercase; transition:color .2s;
+    }
+    .nav-back:hover { color:var(--accent); }
+
+    /* ═══════ HERO ═══════ */
+    .hero {
+      background: var(--bg-dark);
+      padding: 140px 60px 88px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:'';
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size:60px 60px;
+    }
+    /* diagonal accent stripe */
+    .hero::after {
+      content:'';
+      position:absolute; top:-40%; right:-10%;
+      width:500px; height:500px;
+      border-radius:50%;
+      background: radial-gradient(circle, rgba(200,169,110,0.07) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .hero-inner {
+      max-width:1100px; margin:0 auto;
+      display:grid; grid-template-columns:1fr auto;
+      align-items:end; gap:60px; position:relative; z-index:1;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-label {
+      font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--accent); margin-bottom:20px; display:block; font-weight:500;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(44px,6vw,78px);
+      font-weight:900; line-height:.92;
+      color:white; letter-spacing:-.02em;
+    }
+    .hero-title em { font-style:italic; color:var(--accent); }
+    .hero-sub {
+      font-size:15px; color:rgba(255,255,255,0.42);
+      margin-top:22px; max-width:500px; line-height:1.75; font-weight:300;
+    }
+    .hero-source {
+      background:rgba(200,169,110,0.08);
+      border:1px solid rgba(200,169,110,0.2);
+      border-radius:10px; padding:18px 24px;
+      font-size:11px; color:rgba(255,255,255,0.4);
+      letter-spacing:.04em; text-align:right; line-height:1.9;
+      white-space:nowrap;
+    }
+    .hero-source strong { color:var(--accent); display:block; font-size:12px; margin-bottom:4px; }
+
+    /* ═══════ SEZIONE GENERICA ═══════ */
+    .sec-light { background:var(--bg);    padding:80px 60px; }
+    .sec-alt   { background:var(--bg-2);  padding:80px 60px; }
+    .sec-dark  { background:var(--bg-dark); padding:80px 60px; }
+    .sec-inner { max-width:1100px; margin:0 auto; }
+
+    .sec-head { margin-bottom:48px; }
+    .sec-label {
+      font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--accent-2); font-weight:500; margin-bottom:10px; display:block;
+    }
+    .sec-label--gold { color:var(--accent); }
+    .sec-title {
+      font-family:var(--font-display);
+      font-size:clamp(26px,3.5vw,40px);
+      font-weight:700; color:var(--text); letter-spacing:-.02em; margin-bottom:10px;
+    }
+    .sec-title--white { color:white; }
+    .sec-desc { font-size:14px; color:var(--text-muted); max-width:600px; line-height:1.8; }
+    .sec-desc--white { color:rgba(255,255,255,0.38); }
+
+    /* ═══════ CLASSIFICAZIONE INTRO ═══════ */
+    .intro-card {
+      background:var(--bg-dark-2);
+      border:1px solid var(--border-dark);
+      border-left:3px solid var(--accent);
+      border-radius:var(--radius);
+      padding:36px 42px;
+    }
+    .intro-card p {
+      font-size:14.5px; color:rgba(255,255,255,0.58); line-height:1.9; margin-bottom:12px;
+    }
+    .intro-card p:last-child { margin-bottom:0; }
+    .intro-card strong { color:rgba(255,255,255,0.82); }
+
+    /* ═══════ ORG-CHART ═══════ */
+    .orgchart {
+      display:flex; flex-direction:column; align-items:center; gap:0;
+      padding:0 0 16px;
+    }
+
+    /* Livello 1 – Capogruppo */
+    .org-l1 {
+      background:var(--bg-dark);
+      border:2px solid var(--accent);
+      border-radius:12px;
+      padding:20px 48px;
+      text-align:center;
+      position:relative;
+    }
+    .org-l1-title { font-family:var(--font-display); font-size:20px; font-weight:700; color:white; }
+    .org-l1-sub { font-size:11px; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-top:4px; }
+
+    /* Connettori verticali */
+    .org-connector-v {
+      width:2px; height:36px; background:rgba(200,169,110,0.35); flex-shrink:0;
+    }
+    .org-connector-h {
+      display:flex; align-items:flex-start; gap:0; position:relative;
+      width:100%;
+      justify-content:center;
+    }
+    /* linea orizzontale sopra i 4 rami */
+    .org-h-line {
+      position:absolute; top:0; left:50%; transform:translateX(-50%);
+      height:2px; background:rgba(200,169,110,0.25);
+      /* larghezza dinamica via JS */
+    }
+
+    /* Livello 2 – 4 divisioni */
+    .org-l2-wrap {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:16px; width:100%;
+    }
+    .org-div {
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow-md);
+      display:flex; flex-direction:column;
+    }
+    .org-div-head {
+      padding:18px 20px 14px;
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .org-div-num  { font-size:10px; letter-spacing:.14em; text-transform:uppercase; opacity:.6; font-weight:600; }
+    .org-div-name { font-family:var(--font-display); font-size:17px; font-weight:700; color:white; }
+    .org-div-tag  { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,0.45); }
+
+    .org-div-kpi {
+      display:grid; grid-template-columns:1fr 1fr 1fr;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .org-kpi {
+      padding:12px 14px; text-align:center;
+      border-right:1px solid rgba(255,255,255,.06);
+    }
+    .org-kpi:last-child { border-right:none; }
+    .org-kpi-val { font-family:var(--font-display); font-size:16px; font-weight:700; color:white; }
+    .org-kpi-lbl { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.35); margin-top:2px; }
+
+    /* colori divisione */
+    .org-div--cb  { background:linear-gradient(135deg, #1a1206 0%, #120e04 100%); border:1px solid rgba(200,169,110,.3); }
+    .org-div--cb  .org-div-head { background:rgba(200,169,110,0.1); }
+    .org-div--cb  .org-div-num  { color:var(--cb); }
+    .org-div--cb  .org-kpi-val  { color:var(--cb); }
+
+    .org-div--ib  { background:linear-gradient(135deg, #060f1e 0%, #040c1a 100%); border:1px solid rgba(59,130,246,.3); }
+    .org-div--ib  .org-div-head { background:rgba(59,130,246,0.1); }
+    .org-div--ib  .org-div-num  { color:var(--ib); }
+    .org-div--ib  .org-kpi-val  { color:var(--ib); }
+
+    .org-div--pb  { background:linear-gradient(135deg, #041208 0%, #030e06 100%); border:1px solid rgba(16,185,129,.3); }
+    .org-div--pb  .org-div-head { background:rgba(16,185,129,0.1); }
+    .org-div--pb  .org-div-num  { color:var(--pb); }
+    .org-div--pb  .org-kpi-val  { color:var(--pb); }
+
+    .org-div--dws { background:linear-gradient(135deg, #0e0519 0%, #0b0416 100%); border:1px solid rgba(139,92,246,.3); }
+    .org-div--dws .org-div-head { background:rgba(139,92,246,0.1); }
+    .org-div--dws .org-div-num  { color:var(--dws); }
+    .org-div--dws .org-kpi-val  { color:var(--dws); }
+
+    /* ═══════ SEGMENT REPORTING TABLE ═══════ */
+    .seg-table {
+      width:100%; border-collapse:collapse;
+      background:var(--bg-card); border-radius:var(--radius);
+      overflow:hidden; box-shadow:var(--shadow-sm); font-size:14px;
+    }
+    .seg-table thead tr { background:var(--text); }
+    .seg-table thead th {
+      padding:14px 20px; text-align:left;
+      font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+      color:rgba(255,255,255,0.5); font-weight:600;
+    }
+    .seg-table thead th:not(:first-child) { text-align:center; }
+    .seg-table tbody tr { border-bottom:1px solid var(--border); transition:background .16s; }
+    .seg-table tbody tr:hover { background:var(--bg-2); }
+    .seg-table tbody td { padding:14px 20px; }
+    .seg-table tbody td:not(:first-child) { text-align:center; }
+    .seg-table tbody td:first-child { font-weight:600; }
+    .seg-table .total-row { background:var(--bg-2); font-weight:700; border-top:2px solid var(--border); }
+    .tag-bu {
+      display:inline-block; font-size:9px; padding:3px 9px; border-radius:40px;
+      font-weight:600; letter-spacing:.06em; text-transform:uppercase; margin-left:8px;
+    }
+    .tag-cb  { background:rgba(200,169,110,.15); color:#a07940; }
+    .tag-ib  { background:rgba(59,130,246,.12); color:var(--ib); }
+    .tag-pb  { background:rgba(16,185,129,.12); color:var(--pb); }
+    .tag-dws { background:rgba(139,92,246,.12); color:var(--dws); }
+    .tag-grp { background:rgba(255,255,255,.08); color:rgba(255,255,255,.5); }
+    .rote-bar-wrap { display:flex; align-items:center; gap:8px; justify-content:center; }
+    .rote-bar-track { width:60px; height:5px; background:var(--bg-2); border-radius:99px; overflow:hidden; }
+    .rote-bar-fill  { height:100%; border-radius:99px; }
+
+    /* ═══════ DIVISIONI DETAIL CARDS ═══════ */
+    .div-detail-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    }
+    .div-detail {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+    }
+    .div-detail-header {
+      padding:24px 28px 20px;
+      position:relative;
+    }
+    .div-detail-header::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    }
+    .div-detail--cb .div-detail-header { background:rgba(200,169,110,.05); }
+    .div-detail--cb .div-detail-header::after { background:var(--cb); }
+    .div-detail--ib .div-detail-header { background:rgba(59,130,246,.05); }
+    .div-detail--ib .div-detail-header::after { background:var(--ib); }
+    .div-detail--pb .div-detail-header { background:rgba(16,185,129,.05); }
+    .div-detail--pb .div-detail-header::after { background:var(--pb); }
+    .div-detail--dws .div-detail-header { background:rgba(139,92,246,.05); }
+    .div-detail--dws .div-detail-header::after { background:var(--dws); }
+
+    .div-detail-icon {
+      width:38px; height:38px; border-radius:9px;
+      display:flex; align-items:center; justify-content:center;
+      margin-bottom:14px; font-size:18px;
+    }
+    .div-detail--cb  .div-detail-icon { background:rgba(200,169,110,.15); }
+    .div-detail--ib  .div-detail-icon { background:rgba(59,130,246,.12); }
+    .div-detail--pb  .div-detail-icon { background:rgba(16,185,129,.12); }
+    .div-detail--dws .div-detail-icon { background:rgba(139,92,246,.12); }
+
+    .div-detail-name {
+      font-family:var(--font-display); font-size:19px; font-weight:700;
+      color:var(--text); margin-bottom:4px;
+    }
+    .div-detail-sub { font-size:12px; color:var(--text-muted); letter-spacing:.04em; }
+
+    .div-detail-body { padding:24px 28px; }
+    .div-services-title {
+      font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--text-muted); font-weight:600; margin-bottom:14px;
+    }
+    .div-services { display:flex; flex-direction:column; gap:9px; margin-bottom:22px; }
+    .div-service {
+      display:flex; align-items:flex-start; gap:10px;
+      font-size:13.5px; color:var(--text-muted); line-height:1.55;
+    }
+    .div-service-dot {
+      width:6px; height:6px; border-radius:50%; margin-top:6px; flex-shrink:0;
+    }
+    .div-detail--cb  .div-service-dot { background:var(--cb); }
+    .div-detail--ib  .div-service-dot { background:var(--ib); }
+    .div-detail--pb  .div-service-dot { background:var(--pb); }
+    .div-detail--dws .div-service-dot { background:var(--dws); }
+
+    /* Controllate */
+    .subsidiaries-title {
+      font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--text-muted); font-weight:600; margin-bottom:12px;
+      padding-top:18px; border-top:1px solid var(--border);
+    }
+    .subsidiary {
+      background:var(--bg-2); border-radius:8px; padding:12px 14px;
+      margin-bottom:8px;
+    }
+    .subsidiary:last-child { margin-bottom:0; }
+    .sub-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:2px; }
+    .sub-desc { font-size:12px; color:var(--text-muted); line-height:1.5; }
+
+    /* ═══════ PROVE A SUPPORTO ═══════ */
+    .prove-grid { display:flex; flex-direction:column; gap:20px; }
+    .prova-card {
+      background:var(--bg-card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px 32px;
+      box-shadow:var(--shadow-sm);
+      display:grid; grid-template-columns:auto 1fr;
+      gap:24px; align-items:start;
+    }
+    .prova-num {
+      font-family:var(--font-display); font-size:36px; font-weight:900;
+      color:var(--bg-2); line-height:1; user-select:none;
+    }
+    .prova-title {
+      font-family:var(--font-display); font-size:18px; font-weight:700;
+      color:var(--text); margin-bottom:10px;
+    }
+    .prova-text { font-size:13.5px; color:var(--text-muted); line-height:1.8; }
+    .prova-source {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:11px; color:var(--accent); margin-top:12px;
+      background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2);
+      padding:5px 12px; border-radius:40px;
+    }
+
+    /* ═══════ LEGENDA ═══════ */
+    .legenda-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .legenda-item {
+      background:var(--bg-dark-2); border:1px solid var(--border-dark);
+      border-radius:10px; padding:18px 20px;
+    }
+    .legenda-key { font-size:12px; font-weight:600; color:var(--accent); margin-bottom:6px; }
+    .legenda-val { font-size:12px; color:rgba(255,255,255,0.45); line-height:1.6; }
+
+    /* ═══════ HIGHLIGHTS STRIP ═══════ */
+    .highlights {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      background:var(--bg-dark-2); border-radius:var(--radius);
+      overflow:hidden; border:1px solid var(--border-dark);
+      margin-bottom:40px;
+    }
+    .hl {
+      padding:28px 24px; border-right:1px solid var(--border-dark); text-align:center;
+    }
+    .hl:last-child { border-right:none; }
+    .hl-val { font-family:var(--font-display); font-size:28px; font-weight:700; color:white; }
+    .hl-sub { font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.35); margin-top:5px; }
+
+    /* ═══════ FOOTER ═══════ */
+    .footer {
+      background:var(--bg-dark); padding:40px 60px;
+      border-top:1px solid var(--border-dark);
+    }
+    .footer-inner {
+      max-width:1100px; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .footer-logo { display:flex; align-items:center; gap:10px; }
+    .footer-note { font-size:12px; color:rgba(255,255,255,.25); letter-spacing:.04em; }
+    .footer-back {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; color:var(--accent); text-decoration:none;
+      letter-spacing:.04em; text-transform:uppercase;
+      border:1px solid rgba(200,169,110,.3);
+      padding:8px 18px; border-radius:40px;
+      transition:all .2s;
+    }
+    .footer-back:hover { background:rgba(200,169,110,.08); }
+
+    /* ═══════ REVEAL ═══════ */
+    .reveal { opacity:0; transform:translateY(18px); }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .hero-inner { animation:fadeUp .8s ease both; }
+
+    /* ═══════ RESPONSIVE ═══════ */
+    @media(max-width:900px){
+      .navbar{padding:16px 24px}
+      .nav-links{display:none}
+      .hero{padding:120px 24px 64px}
+      .hero-inner{grid-template-columns:1fr; gap:28px}
+      .hero-source{text-align:left; white-space:normal}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px}
+      .org-l2-wrap{grid-template-columns:1fr 1fr}
+      .div-detail-grid{grid-template-columns:1fr}
+      .highlights{grid-template-columns:1fr 1fr}
+      .legenda-grid{grid-template-columns:1fr 1fr}
+      .footer-inner{flex-direction:column; gap:20px; text-align:center}
+      .prova-card{grid-template-columns:1fr}
+      .prova-num{display:none}
+    }
+    @media(max-width:580px){
+      .org-l2-wrap{grid-template-columns:1fr}
+      .highlights{grid-template-columns:1fr}
+      .legenda-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═════════════ NAVBAR ═════════════ -->
+<header class="navbar">
+  <a href="index.html" class="logo">
+    <span class="logo-db">DB</span>
+    <span class="logo-text">Deutsche Bank</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sistema-finanziario.html">Sist. Finanziario</a>
+    <a href="sistema-bancario.html">Sist. Bancario</a>
+    <a href="business-model.html">Business Model</a>
+    <a href="struttura-organizzativa.html" class="active">Struttura Org.</a>
+  </nav>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Indice
+  </a>
+</header>
+
+<!-- ═════════════ HERO ═════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 04 · Project Work · Struttura e Perimetro</span>
+      <h1 class="hero-title">Struttura<br><em>Organizzativa</em></h1>
+      <p class="hero-sub">Perimetro del Gruppo Deutsche Bank, classificazione BCE, quattro divisioni operative e relative controllate principali.</p>
+    </div>
+    <div class="hero-source">
+      <strong>Fonte dati</strong>
+      Deutsche Bank Annual Report 2024<br>
+      Segment Reporting — BCE SSM List<br>
+      BaFin KWG § 10a · dati in € miliardi
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════ 1. CLASSIFICAZIONE & PERIMETRO ═════════════ -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">Classificazione BCE · SSM</span>
+      <h2 class="sec-title sec-title--white">Deutsche Bank: Gruppo Bancario a Modello Universale</h2>
+      <p class="sec-desc sec-desc--white">Inquadramento giuridico, regolamentare e operativo del Gruppo.</p>
+    </div>
+
+    <div class="intro-card reveal">
+      <p>Nel Deutsche Bank Annual Report 2025, la banca si descrive come <strong>capogruppo del Deutsche Bank Group</strong>, che comprende filiali e controllate in Europa, Americhe e Asia‑Pacifico. Questa struttura è tipica di un <strong>gruppo bancario</strong>, cioè un insieme di società finanziarie sotto una holding bancaria. Il report specifica che Deutsche Bank AG pubblica bilancio consolidato (IFRS), condizione necessaria per essere considerata un gruppo.</p>
+      <p>La BCE, nell'elenco delle istituzioni significative vigilate dal Meccanismo di Vigilanza Unico (SSM), classifica Deutsche Bank come <strong>«Significant Institution – Banking Group»</strong>. Tale classificazione deriva dal fatto che: Deutsche Bank AG è una credit institution ai sensi del diritto bancario tedesco (Kreditwesengesetz), controlla numerose società finanziarie ed è soggetta a vigilanza consolidata — applicata solo ai gruppi bancari, non alle singole banche isolate.</p>
+      <p>Nonostante sia classificata come gruppo bancario, il modello operativo è quello della <strong>banca universale</strong>, che opera attraverso quattro principali segmenti di business, ciascuno dei quali offre una vasta gamma di prodotti e servizi per soddisfare le esigenze di una clientela diversificata.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════ 2. ORG CHART ═════════════ -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Struttura Societaria</span>
+      <h2 class="sec-title">Organigramma Operativo 2024</h2>
+      <p class="sec-desc">Quattro divisioni core sotto Deutsche Bank AG come capogruppo — Fonte: Annual Report 2024.</p>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="highlights reveal">
+      <div class="hl">
+        <div class="hl-val" style="color:var(--accent)">€ 29.0B</div>
+        <div class="hl-sub">Ricavi Netti Totali 2024</div>
+      </div>
+      <div class="hl">
+        <div class="hl-val" style="color:var(--accent)">€ 8.6B</div>
+        <div class="hl-sub">Utile Ante Imposte</div>
+      </div>
+      <div class="hl">
+        <div class="hl-val" style="color:var(--accent)">10.1%</div>
+        <div class="hl-sub">RoTE Gruppo</div>
+      </div>
+      <div class="hl">
+        <div class="hl-val" style="color:var(--accent)">~90.000</div>
+        <div class="hl-sub">Dipendenti (FTE)</div>
+      </div>
+    </div>
+
+    <!-- ORG CHART VISIVO -->
+    <div class="orgchart reveal">
+
+      <!-- Capogruppo -->
+      <div class="org-l1">
+        <div class="org-l1-title">Deutsche Bank AG</div>
+        <div class="org-l1-sub">Capogruppo · Banking Group · SSM Significant Institution</div>
+      </div>
+
+      <!-- Connettore verticale -->
+      <div class="org-connector-v"></div>
+
+      <!-- Linea orizzontale + frecce -->
+      <div style="width:100%; position:relative; margin-bottom:8px;">
+        <div style="height:2px; background:rgba(200,169,110,0.22); width:78%; margin:0 auto;"></div>
+        <!-- 4 gambe verticali -->
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); width:78%; margin:0 auto;">
+          <div style="display:flex; justify-content:center;"><div style="width:2px; height:20px; background:rgba(200,169,110,0.25);"></div></div>
+          <div style="display:flex; justify-content:center;"><div style="width:2px; height:20px; background:rgba(59,130,246,0.3);"></div></div>
+          <div style="display:flex; justify-content:center;"><div style="width:2px; height:20px; background:rgba(16,185,129,0.3);"></div></div>
+          <div style="display:flex; justify-content:center;"><div style="width:2px; height:20px; background:rgba(139,92,246,0.3);"></div></div>
+        </div>
+      </div>
+
+      <!-- 4 Divisioni -->
+      <div class="org-l2-wrap">
+
+        <!-- CORPORATE BANK -->
+        <div class="org-div org-div--cb">
+          <div class="org-div-head">
+            <span class="org-div-num">Divisione I</span>
+            <span class="org-div-name">Corporate Bank</span>
+            <span class="org-div-tag">Banca Universale – CB</span>
+          </div>
+          <div class="org-div-kpi">
+            <div class="org-kpi">
+              <div class="org-kpi-val">€6.0B</div>
+              <div class="org-kpi-lbl">Ricavi</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">15.8%</div>
+              <div class="org-kpi-lbl">RoTE</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">~17k</div>
+              <div class="org-kpi-lbl">FTE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INVESTMENT BANK -->
+        <div class="org-div org-div--ib">
+          <div class="org-div-head">
+            <span class="org-div-num">Divisione II</span>
+            <span class="org-div-name">Investment Bank</span>
+            <span class="org-div-tag">Banca Universale – IB</span>
+          </div>
+          <div class="org-div-kpi">
+            <div class="org-kpi">
+              <div class="org-kpi-val">€10.4B</div>
+              <div class="org-kpi-lbl">Ricavi</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">12.1%</div>
+              <div class="org-kpi-lbl">RoTE</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">~14k</div>
+              <div class="org-kpi-lbl">FTE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRIVATE BANK -->
+        <div class="org-div org-div--pb">
+          <div class="org-div-head">
+            <span class="org-div-num">Divisione III</span>
+            <span class="org-div-name">Private Bank</span>
+            <span class="org-div-tag">Banca Universale – Retail/WM</span>
+          </div>
+          <div class="org-div-kpi">
+            <div class="org-kpi">
+              <div class="org-kpi-val">€9.4B</div>
+              <div class="org-kpi-lbl">Ricavi</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">8.3%</div>
+              <div class="org-kpi-lbl">RoTE</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">~43k</div>
+              <div class="org-kpi-lbl">FTE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DWS -->
+        <div class="org-div org-div--dws">
+          <div class="org-div-head">
+            <span class="org-div-num">Divisione IV</span>
+            <span class="org-div-name">Asset Mgmt (DWS)</span>
+            <span class="org-div-tag">Asset Management</span>
+          </div>
+          <div class="org-div-kpi">
+            <div class="org-kpi">
+              <div class="org-kpi-val">€3.1B</div>
+              <div class="org-kpi-lbl">Ricavi</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">25.4%</div>
+              <div class="org-kpi-lbl">RoTE</div>
+            </div>
+            <div class="org-kpi">
+              <div class="org-kpi-val">~4.2k</div>
+              <div class="org-kpi-lbl">FTE</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /orgchart -->
+  </div>
+</section>
+
+
+<!-- ═════════════ 3. SEGMENT REPORTING TABLE ═════════════ -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Dati Quantitativi</span>
+      <h2 class="sec-title">Estratto Segment Reporting 2024</h2>
+      <p class="sec-desc">Fonte: Deutsche Bank Annual Report 2024 – Segment Reporting (dati in € miliardi).</p>
+    </div>
+
+    <table class="seg-table reveal">
+      <thead>
+        <tr>
+          <th>Segmento</th>
+          <th>Ricavi Netti (€ mld)</th>
+          <th>Utile Ante Imp. (€ mld)</th>
+          <th>RoTE (%)</th>
+          <th>Dipendenti (FTE)</th>
+          <th>Classificazione</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Corporate Bank <span class="tag-bu tag-cb">CB</span></td>
+          <td>6.0</td>
+          <td>2.4</td>
+          <td>
+            <div class="rote-bar-wrap">
+              15.8%
+              <div class="rote-bar-track"><div class="rote-bar-fill" style="width:62%;background:var(--cb)"></div></div>
+            </div>
+          </td>
+          <td>~17.000</td>
+          <td style="font-size:12px;color:var(--text-muted)">Banca Universale – CB</td>
+        </tr>
+        <tr>
+          <td>Investment Bank <span class="tag-bu tag-ib">IB</span></td>
+          <td>10.4</td>
+          <td>3.5</td>
+          <td>
+            <div class="rote-bar-wrap">
+              12.1%
+              <div class="rote-bar-track"><div class="rote-bar-fill" style="width:48%;background:var(--ib)"></div></div>
+            </div>
+          </td>
+          <td>~14.000</td>
+          <td style="font-size:12px;color:var(--text-muted)">Banca Universale – IB</td>
+        </tr>
+        <tr>
+          <td>Private Bank <span class="tag-bu tag-pb">PB</span></td>
+          <td>9.4</td>
+          <td>1.5</td>
+          <td>
+            <div class="rote-bar-wrap">
+              8.3%
+              <div class="rote-bar-track"><div class="rote-bar-fill" style="width:33%;background:var(--pb)"></div></div>
+            </div>
+          </td>
+          <td>~43.000</td>
+          <td style="font-size:12px;color:var(--text-muted)">Banca Universale – Retail/WM</td>
+        </tr>
+        <tr>
+          <td>Asset Mgmt – DWS <span class="tag-bu tag-dws">DWS</span></td>
+          <td>3.1</td>
+          <td>1.2</td>
+          <td>
+            <div class="rote-bar-wrap">
+              25.4%
+              <div class="rote-bar-track"><div class="rote-bar-fill" style="width:100%;background:var(--dws)"></div></div>
+            </div>
+          </td>
+          <td>~4.200</td>
+          <td style="font-size:12px;color:var(--text-muted)">Asset Management</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTALE GRUPPO <span class="tag-bu tag-grp">SSM/BCE</span></td>
+          <td>29.0</td>
+          <td>8.6</td>
+          <td>
+            <div class="rote-bar-wrap">
+              10.1%
+              <div class="rote-bar-track"><div class="rote-bar-fill" style="width:40%;background:var(--accent)"></div></div>
+            </div>
+          </td>
+          <td>~90.000</td>
+          <td style="font-size:12px;color:var(--text-muted)">Banking Group (SSM/BCE)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Legenda -->
+    <div style="margin-top:28px;" class="reveal">
+      <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:14px;">Legenda campi</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;">Ricavi Netti (€ mld)</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">Entrate totali al netto di costi direttamente collegati, espresse in miliardi di euro</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;">RoTE (%)</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">Return on Tangible Equity: rendimento del capitale tangibile netto</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;">Utile Ante Imp. (€ mld)</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">Profitto prima del pagamento delle imposte sul reddito di esercizio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════ 4. DIVISIONI DETAIL ═════════════ -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi delle Divisioni</span>
+      <h2 class="sec-title">Servizi, Offerta e Controllate Principali</h2>
+      <p class="sec-desc">Per ciascuna divisione: attività core, prodotti offerti e principali società controllate collegate.</p>
+    </div>
+
+    <div class="div-detail-grid">
+
+      <!-- CORPORATE BANK -->
+      <div class="div-detail div-detail--cb reveal">
+        <div class="div-detail-header">
+          <div class="div-detail-icon">🏢</div>
+          <div class="div-detail-name">Corporate Bank</div>
+          <div class="div-detail-sub">Divisione I · Banca Universale – CB · ~17.000 FTE</div>
+        </div>
+        <div class="div-detail-body">
+          <div class="div-services-title">Servizi Principali</div>
+          <div class="div-services">
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Gestione della cassa:</strong> soluzioni per gestire liquidità, pagamenti e crediti per clienti aziendali e istituzionali</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Finanziamenti commerciali:</strong> lettere di credito, garanzie e finanziamenti della catena di approvvigionamento</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Prestiti:</strong> offerte di credito personalizzate per imprese, multinazionali ed enti del settore pubblico</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Servizi fiduciari e di agenzia:</strong> supporto per transazioni nei mercati dei capitali</span>
+            </div>
+          </div>
+
+          <div class="subsidiaries-title">Controllate Principali</div>
+          <div class="subsidiary">
+            <div class="sub-name">Deutsche Bank Trust Company Americas – DBTCA (USA)</div>
+            <div class="sub-desc">Servizi fiduciari, escrow, agency services, corporate trust</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Deutsche Bank Trust Corporation (USA)</div>
+            <div class="sub-desc">Holding fiduciaria che controlla DBTCA</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Deutsche Investments India Private Ltd (India)</div>
+            <div class="sub-desc">Servizi IT, operations, supporto ai processi corporate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVESTMENT BANK -->
+      <div class="div-detail div-detail--ib reveal">
+        <div class="div-detail-header">
+          <div class="div-detail-icon">📈</div>
+          <div class="div-detail-name">Investment Bank</div>
+          <div class="div-detail-sub">Divisione II · Banca Universale – IB · ~14.000 FTE</div>
+        </div>
+        <div class="div-detail-body">
+          <div class="div-services-title">Servizi Principali</div>
+          <div class="div-services">
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Mercati dei capitali:</strong> emissione di capitale e debito per clienti istituzionali</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Servizi di consulenza:</strong> fusioni e acquisizioni, ristrutturazioni, consulenza strategica</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Trading azionario:</strong> market making ed esecuzione per prodotti azionari</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Reddito fisso e valute (FICC):</strong> trading e gestione del rischio su tassi, FX e credito</span>
+            </div>
+          </div>
+
+          <div class="subsidiaries-title">Controllate Principali</div>
+          <div class="subsidiary">
+            <div class="sub-name">Deutsche Bank Securities Inc. – DBSI (USA)</div>
+            <div class="sub-desc">Broker‑dealer, trading, underwriting, investment banking</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Deutsche Bank Trust Company Americas</div>
+            <div class="sub-desc">Servizi fiduciari per emissioni obbligazionarie e operazioni di capital markets</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">DBX ETF Trust (USA)</div>
+            <div class="sub-desc">ETF utilizzato anche per attività di capital markets e prodotti strutturati</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIVATE BANK -->
+      <div class="div-detail div-detail--pb reveal">
+        <div class="div-detail-header">
+          <div class="div-detail-icon">👤</div>
+          <div class="div-detail-name">Private Bank</div>
+          <div class="div-detail-sub">Divisione III · Retail/Wealth Management · ~43.000 FTE</div>
+        </div>
+        <div class="div-detail-body">
+          <div class="div-services-title">Servizi Principali</div>
+          <div class="div-services">
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Banca al dettaglio:</strong> conti di risparmio, prestiti e soluzioni di pagamento per clienti retail</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Gestione patrimoniale:</strong> consulenza sugli investimenti, gestione del portafoglio e pianificazione patrimoniale per HNWI</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Banking digitale:</strong> piattaforme di banking online e mobile per segmenti retail e affluent</span>
+            </div>
+          </div>
+
+          <div class="subsidiaries-title">Note operative</div>
+          <div class="subsidiary">
+            <div class="sub-name">Operatività prevalentemente diretta</div>
+            <div class="sub-desc">La Private Bank opera soprattutto tramite filiali dirette di Deutsche Bank AG e il marchio Postbank in Germania, senza molte società giuridiche separate rispetto alle altre divisioni.</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Postbank (Germania)</div>
+            <div class="sub-desc">Brand retail integrato, con ampia rete di filiali per la clientela mass market tedesca</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DWS -->
+      <div class="div-detail div-detail--dws reveal">
+        <div class="div-detail-header">
+          <div class="div-detail-icon">🏛️</div>
+          <div class="div-detail-name">Asset Management – DWS Group</div>
+          <div class="div-detail-sub">Divisione IV · Asset Management · ~4.200 FTE · RoTE 25.4%</div>
+        </div>
+        <div class="div-detail-body">
+          <div class="div-services-title">Servizi Principali</div>
+          <div class="div-services">
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Fondi comuni:</strong> vasta gamma di fondi azionari, a reddito fisso e multi‑asset per clientela istituzionale e retail</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Investimenti alternativi:</strong> soluzioni immobiliari, infrastrutturali e di private equity</span>
+            </div>
+            <div class="div-service">
+              <div class="div-service-dot"></div>
+              <span><strong>Investimenti sostenibili:</strong> prodotti di investimento focalizzati su criteri ESG</span>
+            </div>
+          </div>
+
+          <div class="subsidiaries-title">Controllate Principali</div>
+          <div class="subsidiary">
+            <div class="sub-name">DWS Management GmbH (Germania)</div>
+            <div class="sub-desc">General partner della KGaA — struttura di governance dell'asset management</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Xtrackers (IE) plc (Irlanda)</div>
+            <div class="sub-desc">Veicolo ETF europeo per la distribuzione dei fondi quotati</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">DBX ETF Trust (USA)</div>
+            <div class="sub-desc">Veicolo ETF statunitense per prodotti passivi e tematici</div>
+          </div>
+          <div class="subsidiary">
+            <div class="sub-name">Xtrackers II (Lussemburgo)</div>
+            <div class="sub-desc">Fondi obbligazionari ed ETF tematici per mercato europeo</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════ 5. PROVE A SUPPORTO ═════════════ -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Documentazione Regolamentare</span>
+      <h2 class="sec-title">Prove a Supporto della Classificazione</h2>
+      <p class="sec-desc">Tre evidenze formali che confermano la classificazione di Deutsche Bank come Gruppo Bancario soggetto a vigilanza consolidata.</p>
+    </div>
+
+    <div class="prove-grid">
+
+      <div class="prova-card reveal">
+        <div class="prova-num">1</div>
+        <div>
+          <div class="prova-title">Bilancio Consolidato IFRS</div>
+          <p class="prova-text">Deutsche Bank AG pubblica il bilancio consolidato di Gruppo (IFRS), che include tutte le controllate e le entità a controllo congiunto. Questo è il requisito formale fondamentale per il riconoscimento come gruppo bancario ai sensi della CRR/CRDIV. Il bilancio consolidato permette alla BCE e agli altri supervisori di valutare il rischio a livello di intero gruppo, non solo della capogruppo isolata.</p>
+          <span class="prova-source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Deutsche Bank Annual Report 2024 – Note al Bilancio Consolidato
+          </span>
+        </div>
+      </div>
+
+      <div class="prova-card reveal">
+        <div class="prova-num">2</div>
+        <div>
+          <div class="prova-title">Classificazione BCE – Meccanismo di Vigilanza Unico (SSM)</div>
+          <p class="prova-text">La BCE, nell'ambito del Meccanismo di Vigilanza Unico (SSM), classifica Deutsche Bank come «Significant Institution – Banking Group». Tale classificazione implica vigilanza prudenziale diretta da parte della BCE su base consolidata, confermando che la struttura è quella di un gruppo bancario e non di una banca isolata. La supervisione diretta BCE avviene attraverso Joint Supervisory Teams (JST) composti da supervisori nazionali e BCE.</p>
+          <span class="prova-source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            BCE – SSM List of Supervised Entities 2024
+          </span>
+        </div>
+      </div>
+
+      <div class="prova-card reveal">
+        <div class="prova-num">3</div>
+        <div>
+          <div class="prova-title">Vigilanza Consolidata – Kreditwesengesetz (KWG)</div>
+          <p class="prova-text">Deutsche Bank AG è soggetta alla vigilanza consolidata ai sensi del Kreditwesengesetz (KWG) tedesco, il testo unico bancario della Germania. La vigilanza consolidata ai sensi del KWG § 10a si applica esclusivamente ai gruppi bancari, non alle singole banche isolate, confermando definitivamente la struttura di gruppo. L'autorità competente a livello nazionale è la BaFin, che opera in coordinamento con la BCE nell'ambito del SSM.</p>
+          <span class="prova-source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            BaFin – KWG § 10a, Gruppenaufsicht
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════ 6. SINTESI FINALE ═════════════ -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">Conclusioni</span>
+      <h2 class="sec-title sec-title--white">Sintesi del Perimetro e del Modello</h2>
+    </div>
+
+    <div style="background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);padding:44px 48px;" class="reveal">
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.9;margin-bottom:16px;">Deutsche Bank AG è classificata come <strong style="color:var(--accent)">Gruppo Bancario – Significant Institution</strong> dalla BCE nell'ambito del SSM, con vigilanza prudenziale diretta su base consolidata. Tre elementi convergono a confermare questa classificazione: la pubblicazione del bilancio consolidato IFRS, la vigilanza consolidata ai sensi del KWG tedesco e l'inclusione nell'elenco SSM delle istituzioni significative.</p>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.9;margin-bottom:16px;">Operativamente, il gruppo adotta il modello della <strong style="color:white;">banca universale</strong> articolato in quattro divisioni: <span style="color:var(--cb)">Corporate Bank</span> (servizi transazionali e finanziamento alle imprese), <span style="color:var(--ib)">Investment Bank</span> (capital markets, M&amp;A, trading), <span style="color:var(--pb)">Private Bank</span> (retail e wealth management) e <span style="color:var(--dws)">DWS Group</span> (asset management, la divisione più redditizia con RoTE del 25.4%).</p>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.9;">Con ricavi netti totali di <strong style="color:white;">€29.0 miliardi</strong>, utile ante imposte di <strong style="color:white;">€8.6 miliardi</strong> e circa <strong style="color:white;">90.000 dipendenti</strong> in 58 paesi, Deutsche Bank è uno dei principali gruppi bancari europei e un'istituzione sistemicamente rilevante (G-SIB) a livello globale.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="logo-db">DB</span>
+      <span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span>
+    </div>
+    <p class="footer-note">Progetto Universitario · Sezione 4 – Struttura Organizzativa e Perimetro · 2025</p>
+    <a href="index.html" class="footer-back">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+        <path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Indice
+    </a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }, 50);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+    els.forEach(el => {
+      el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      io.observe(el);
+    });
+  } else {
+    els.forEach(el => { el.style.opacity='1'; el.style.transform='none'; });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Quote di Mercato – Sezione 3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#f7f8fc; --bg-2:#eef0f6; --bg-dark:#0d1117; --bg-dark-2:#131926; --bg-card:#ffffff;
+      --accent:#c8a96e; --accent-2:#1d4ed8; --accent-hover:#e0bf80;
+      --text:#1a1f2e; --text-muted:#6b7280;
+      --border:rgba(0,0,0,0.07); --border-dark:rgba(255,255,255,0.07);
+      --radius:14px;
+      --font-display:'Playfair Display',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --shadow-sm:0 2px 12px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.65;}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(247,248,252,0.95);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-db{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-weight:500;font-size:15px;color:var(--text);letter-spacing:.02em;}
+    .nav-links{display:flex;gap:22px;}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-back:hover{color:var(--accent);}
+    .hero{background:var(--bg-dark);padding:140px 60px 88px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    .hero::after{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,110,.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px;position:relative;z-index:1;animation:fadeUp .8s ease both;}
+    .hero-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;font-weight:500;}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,78px);font-weight:900;line-height:.92;color:white;letter-spacing:-.02em;}
+    .hero-title em{font-style:italic;color:var(--accent);}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.42);margin-top:22px;max-width:500px;line-height:1.75;font-weight:300;}
+    .hero-source{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2);border-radius:10px;padding:18px 24px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;text-align:right;line-height:1.9;white-space:nowrap;}
+    .hero-source strong{color:var(--accent);display:block;font-size:12px;margin-bottom:4px;}
+    .sec-light{background:var(--bg);padding:80px 60px;}
+    .sec-alt{background:var(--bg-2);padding:80px 60px;}
+    .sec-dark{background:var(--bg-dark);padding:80px 60px;}
+    .sec-inner{max-width:1100px;margin:0 auto;}
+    .sec-head{margin-bottom:44px;}
+    .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:500;margin-bottom:10px;display:block;}
+    .sec-label--gold{color:var(--accent);}
+    .sec-title{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:10px;}
+    .sec-title--white{color:white;}
+    .sec-desc{font-size:14px;color:var(--text-muted);max-width:640px;line-height:1.8;}
+    .sec-desc--white{color:rgba(255,255,255,.38);}
+
+    /* QUOTE CARDS */
+    .quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
+    .q-card{background:var(--bg-dark-2);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:32px 28px;transition:all .3s;}
+    .q-card:hover{border-color:rgba(200,169,110,.2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3);}
+    .q-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px;font-weight:600;}
+    .q-value{font-family:var(--font-display);font-size:28px;font-weight:700;color:white;margin-bottom:28px;letter-spacing:-.01em;}
+    .q-markets{display:flex;flex-direction:column;gap:16px;}
+    .q-market{display:grid;grid-template-columns:22px 1fr 52px 84px;align-items:center;gap:10px;}
+    .qm-flag{font-size:16px;}
+    .qm-bar-wrap{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+    .qm-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),#e0bf80);}
+    .qm-bar--eu{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
+    .qm-pct{font-size:13px;font-weight:700;color:var(--accent);text-align:right;font-family:var(--font-display);}
+    .qm-pct--eu{color:#60a5fa;}
+    .qm-geo{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.04em;text-transform:uppercase;}
+
+    /* TABLE */
+    .tbl{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);font-size:13px;}
+    .tbl thead tr{background:var(--text);}
+    .tbl thead th{padding:12px 18px;text-align:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;}
+    .tbl thead th:first-child{text-align:left;}
+    .tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+    .tbl tbody tr:hover{background:var(--bg-2);}
+    .tbl tbody td{padding:12px 18px;text-align:center;}
+    .tbl tbody td:first-child{text-align:left;font-weight:600;}
+
+    /* CHART */
+    .chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);}
+    .chart-wrap-h{position:relative;height:260px;}.chart-card canvas{width:100%!important;}
+    .chart-ttl{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .chart-sub{font-size:11px;color:var(--text-muted);margin-bottom:20px;}
+
+    /* BOX METODOLOGICO */
+    .meto-box{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;}
+    .meto-header{background:rgba(200,169,110,.07);border-bottom:1px solid var(--border-dark);padding:22px 32px;display:flex;align-items:center;gap:14px;}
+    .meto-icon{width:36px;height:36px;border-radius:8px;background:rgba(200,169,110,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .meto-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:white;}
+    .meto-subtitle{font-size:11px;color:rgba(255,255,255,.3);margin-top:2px;}
+    .meto-row{display:grid;grid-template-columns:220px 1fr;border-bottom:1px solid var(--border-dark);padding:18px 32px;gap:24px;}
+    .meto-row:last-child{border-bottom:none;}
+    .meto-key{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;padding-top:2px;}
+    .meto-val{font-size:13px;color:rgba(255,255,255,.52);line-height:1.8;}
+    .meto-val strong{color:rgba(255,255,255,.82);}
+
+    .footer{background:var(--bg-dark);padding:40px 60px;border-top:1px solid var(--border-dark);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .footer-logo{display:flex;align-items:center;gap:10px;}
+    .footer-note{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
+    .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);padding:8px 18px;border-radius:40px;transition:all .2s;}
+    .footer-back:hover{background:rgba(200,169,110,.08);}
+    .reveal{opacity:0;transform:translateY(18px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){
+      .navbar{padding:16px 24px;}.nav-links{display:none;}
+      .hero{padding:120px 24px 64px;}.hero-inner{grid-template-columns:1fr;gap:28px;}.hero-source{text-align:left;white-space:normal;}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px;}
+      .quote-grid{grid-template-columns:1fr;}
+      .meto-row{grid-template-columns:1fr;}
+      .footer-inner{flex-direction:column;gap:20px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo"><span class="logo-db">DB</span><span class="logo-text">Deutsche Bank</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a><a href="sistema-finanziario.html">Sist. Finanziario</a>
+    <a href="sistema-bancario.html">Sist. Bancario</a><a href="quote-mercato.html" class="active">Quote</a>
+    <a href="business-model.html">Business Model</a><a href="struttura-organizzativa.html">Struttura Org.</a>
+  </nav>
+  <a href="index.html" class="nav-back"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 03 · Project Work · Posizionamento Competitivo</span>
+      <h1 class="hero-title">Quote di<br><em>Mercato</em></h1>
+      <p class="hero-sub">Posizionamento competitivo di Deutsche Bank AG su attivo, prestiti e depositi — mercato tedesco ed europeo EU27. Anno di riferimento 2025.</p>
+    </div>
+    <div class="hero-source"><strong>Fonte dati</strong>Bilancio Consolidato DB AG 31/12/2025<br>ECB Statistical Data Warehouse<br>European Banking Federation 2025</div>
+  </div>
+</section>
+
+<!-- QUOTE CARDS -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">Anno 2025 · Perimetro Consolidato</span>
+      <h2 class="sec-title sec-title--white">Quote di Mercato Deutsche Bank AG</h2>
+      <p class="sec-desc sec-desc--white">Market Share = Valore Banca ÷ Valore Totale Sistema — applicata su Totale Attivo, Prestiti e Depositi per Germania e Europa EU27.</p>
+    </div>
+    <div class="quote-grid reveal">
+      <div class="q-card">
+        <div class="q-label">Totale Attivo</div>
+        <div class="q-value">€ 1.435 T</div>
+        <div class="q-markets">
+          <div class="q-market"><span class="qm-flag">🇩🇪</span><div class="qm-bar-wrap"><div class="qm-bar" style="width:100%"></div></div><span class="qm-pct">13.67%</span><span class="qm-geo">Germania</span></div>
+          <div class="q-market"><span class="qm-flag">🇪🇺</span><div class="qm-bar-wrap"><div class="qm-bar qm-bar--eu" style="width:31.7%"></div></div><span class="qm-pct qm-pct--eu">4.33%</span><span class="qm-geo">EU27</span></div>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-label">Totale Prestiti</div>
+        <div class="q-value">€ 472.6 B</div>
+        <div class="q-markets">
+          <div class="q-market"><span class="qm-flag">🇩🇪</span><div class="qm-bar-wrap"><div class="qm-bar" style="width:41.6%"></div></div><span class="qm-pct">5.69%</span><span class="qm-geo">Germania</span></div>
+          <div class="q-market"><span class="qm-flag">🇪🇺</span><div class="qm-bar-wrap"><div class="qm-bar qm-bar--eu" style="width:12.9%"></div></div><span class="qm-pct qm-pct--eu">1.76%</span><span class="qm-geo">EU27</span></div>
+        </div>
+      </div>
+      <div class="q-card">
+        <div class="q-label">Depositi da Clientela</div>
+        <div class="q-value">€ 691.8 B</div>
+        <div class="q-markets">
+          <div class="q-market"><span class="qm-flag">🇩🇪</span><div class="qm-bar-wrap"><div class="qm-bar" style="width:61.4%"></div></div><span class="qm-pct">8.39%</span><span class="qm-geo">Germania</span></div>
+          <div class="q-market"><span class="qm-flag">🇪🇺</span><div class="qm-bar-wrap"><div class="qm-bar qm-bar--eu" style="width:29.7%"></div></div><span class="qm-pct qm-pct--eu">4.06%</span><span class="qm-geo">EU27</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabella dati assoluti -->
+    <table class="tbl reveal" style="background:var(--bg-dark-2);">
+      <thead><tr><th>Voce</th><th>Deutsche Bank (€)</th><th>Sistema Germania (€)</th><th>Sistema EU27 (€)</th><th>Q. Mercato DE</th><th>Q. Mercato EU27</th></tr></thead>
+      <tbody style="color:rgba(255,255,255,.65);">
+        <tr>
+          <td style="color:var(--accent);font-weight:600;">Totale Attivo</td>
+          <td>1.435.067.000.000</td><td>10.500.000.000.000</td><td>33.130.000.000.000</td>
+          <td style="color:var(--accent);font-weight:700;">13.67%</td>
+          <td style="color:#60a5fa;font-weight:700;">4.33%</td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent);font-weight:600;">Prestiti</td>
+          <td>472.620.000.000</td><td>8.300.000.000.000</td><td>26.840.000.000.000</td>
+          <td style="color:var(--accent);font-weight:700;">5.69%</td>
+          <td style="color:#60a5fa;font-weight:700;">1.76%</td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent);font-weight:600;">Depositi</td>
+          <td>691.828.000.000</td><td>8.250.000.000.000 *</td><td>17.050.000.000.000</td>
+          <td style="color:var(--accent);font-weight:700;">8.39%</td>
+          <td style="color:#60a5fa;font-weight:700;">4.06%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:10px;">* Stima tramite Loan-to-Deposit ratio — vedere box metodologico</p>
+  </div>
+</section>
+
+<!-- GRAFICO -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Visualizzazione</span>
+      <h2 class="sec-title">Confronto Quote di Mercato</h2>
+    </div>
+    <div class="chart-card reveal">
+      <div class="chart-ttl">Quote di Mercato Deutsche Bank per Voce di Bilancio</div>
+      <div class="chart-sub">Germania vs Europa EU27 · Anno 2025 · Fonte: ECB SDW / EBF</div>
+      <div class="chart-wrap-h"><canvas id="cQuote"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOX METODOLOGICO -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">Trasparenza Metodologica</span>
+      <h2 class="sec-title sec-title--white">Box Metodologico</h2>
+      <p class="sec-desc sec-desc--white">Deutsche Bank AG · Anno di riferimento: 2025 · Perimetro: Consolidato</p>
+    </div>
+    <div class="meto-box reveal">
+      <div class="meto-header">
+        <div class="meto-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c8a96e" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div><div class="meto-title">Metodologia di Calcolo Quote di Mercato</div><div class="meto-subtitle">Criteri, fonti e approssimazioni adottate — Deutsche Bank AG | 2025 | Perimetro Consolidato</div></div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Anno di Riferimento</div>
+        <div class="meto-val">Esercizio <strong>2025</strong>, sulla base del Bilancio Consolidato Deutsche Bank AG al 31/12/2025. I dati di sistema (Germania ed Europa) si riferiscono al medesimo esercizio, garantendo piena coerenza temporale nel calcolo delle quote di mercato.</div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Perimetro</div>
+        <div class="meto-val">Perimetro <strong>consolidato</strong> per Deutsche Bank AG (incluse tutte le entità del gruppo). Dati di sistema: perimetro domestico per la Germania, area <strong>EU27</strong> per l'Europa. Il perimetro è mantenuto uniforme per tutte e tre le voci analizzate.</div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Formula Applicata</div>
+        <div class="meto-val"><strong>Market Share (%) = Valore Banca ÷ Valore Totale Sistema</strong><br>Applicata per: Totale Attivo | Totale Prestiti | Depositi da Clientela<br>Su entrambi i mercati: Germania e Europa EU27 → <strong>6 quote totali</strong></div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Fonti — Deutsche Bank AG</div>
+        <div class="meto-val">Fonte primaria: <strong>Bilancio Consolidato Deutsche Bank AG al 31/12/2025</strong>. Confermato tramite Capital IQ – S&P Global.<br>Attivo: € 1.435 mld | Prestiti: € 473 mld | Depositi: € 692 mld</div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Fonti — Sistema</div>
+        <div class="meto-val">Germania → <strong>ECB Statistical Data Warehouse (ECB SDW)</strong>, aggregati bancari domestici 2025<br>Europa → <strong>ECB Statistical Data Warehouse + EBF European Banking Federation</strong>, Report 2025</div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Approssimazione Depositi Germania</div>
+        <div class="meto-val">Il totale depositi bancari in Germania non è disponibile direttamente da ECB SDW con la stessa granularità dei dati sui prestiti. La stima è stata effettuata applicando il <strong>Loan-to-Deposit ratio (LTD)</strong>, indice tipicamente prossimo a 1 nei sistemi bancari europei. Su questa base i depositi totali sono stati stimati a <strong>€ 8.250 miliardi</strong>, valore leggermente inferiore ai prestiti totali (€ 8.300 mld) — ipotesi prudenziale che non tutti i prestiti siano integralmente finanziati da depositi della clientela.</div>
+      </div>
+      <div class="meto-row">
+        <div class="meto-key">Fonti Crociate</div>
+        <div class="meto-val">Capital IQ – S&P Global | ECB Statistical Data Warehouse | European Banking Federation (EBF)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-db">DB</span><span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span></div>
+    <p class="footer-note">Progetto Universitario · Sezione 3 – Quote di Mercato · 2025</p>
+    <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.transition='opacity .55s ease,transform .55s ease';x.target.style.opacity='1';x.target.style.transform='translateY(0)';io.unobserve(x.target);}});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';io.observe(el);});
+
+const TIP={backgroundColor:'rgba(10,14,24,.96)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#94a3b8',padding:10};
+new Chart('cQuote',{
+  type:'bar',
+  data:{labels:['Totale Attivo','Prestiti','Depositi'],datasets:[
+    {label:'Germania (%)',data:[13.67,5.69,8.39],backgroundColor:'rgba(200,169,110,.85)',borderRadius:6},
+    {label:'Europa EU27 (%)',data:[4.33,1.76,4.06],backgroundColor:'rgba(59,130,246,.78)',borderRadius:6}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{tooltip:{...TIP,callbacks:{label:c=>' '+c.dataset.label+': '+c.raw+'%'}},legend:{labels:{color:'#6b7280',font:{size:12},padding:20,boxWidth:10,boxHeight:10}}},
+    scales:{x:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9ca3af',font:{size:12}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9ca3af',font:{size:11},callback:v=>v+'%'},max:16}}}
+});
+</script>
+</body>
+</html>

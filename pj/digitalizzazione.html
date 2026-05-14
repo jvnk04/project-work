@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Digitalizzazione - Sezione 8</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f7f8fc; --bg-2:#eef0f6; --bg-dark:#0d1117; --bg-dark-2:#131926; --bg-card:#ffffff;
+      --accent:#c8a96e; --accent-2:#1d4ed8; --accent-hover:#e0bf80;
+      --teal:#06b6d4; --purple:#8b5cf6; --green:#10b981;
+      --text:#1a1f2e; --text-muted:#6b7280;
+      --border:rgba(0,0,0,0.07); --border-dark:rgba(255,255,255,0.07);
+      --radius:14px;
+      --font-display:"Playfair Display",Georgia,serif;
+      --font-body:"DM Sans",system-ui,sans-serif;
+      --shadow-sm:0 2px 12px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.65;}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(247,248,252,0.95);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-db{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-weight:500;font-size:15px;color:var(--text);letter-spacing:.02em;}
+    .nav-links{display:flex;gap:18px;}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-back:hover{color:var(--accent);}
+    .hero{background:var(--bg-dark);padding:140px 60px 88px;position:relative;overflow:hidden;}
+    .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    .hero::after{content:"";position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px;position:relative;z-index:1;animation:fadeUp .8s ease both;}
+    .hero-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;font-weight:500;}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,78px);font-weight:900;line-height:.92;color:white;letter-spacing:-.02em;}
+    .hero-title em{font-style:italic;color:var(--teal);}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.42);margin-top:22px;max-width:500px;line-height:1.75;font-weight:300;}
+    .hero-source{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2);border-radius:10px;padding:18px 24px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;text-align:right;line-height:1.9;white-space:nowrap;}
+    .hero-source strong{color:var(--accent);display:block;font-size:12px;margin-bottom:4px;}
+    .sec-light{background:var(--bg);padding:80px 60px;}
+    .sec-alt{background:var(--bg-2);padding:80px 60px;}
+    .sec-dark{background:var(--bg-dark);padding:80px 60px;}
+    .sec-inner{max-width:1100px;margin:0 auto;}
+    .sec-head{margin-bottom:44px;}
+    .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:500;margin-bottom:10px;display:block;}
+    .sec-label--gold{color:var(--accent);}
+    .sec-label--teal{color:var(--teal);}
+    .sec-title{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:10px;}
+    .sec-title--white{color:white;}
+    .sec-desc{font-size:14px;color:var(--text-muted);max-width:640px;line-height:1.8;}
+    .sec-desc--white{color:rgba(255,255,255,.38);}
+    /* KPI STRIP */
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;margin-bottom:48px;}
+    .kpi-item{padding:22px 16px;border-right:1px solid var(--border-dark);text-align:center;}
+    .kpi-item:last-child{border-right:none;}
+    .kpi-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--teal);}
+    .kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:5px;line-height:1.5;}
+    /* AREA CARDS */
+    .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .area-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 26px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+    .area-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+    .area-card--ai::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa);}
+    .area-card--cyber::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+    .area-card--ms::before{background:linear-gradient(90deg,#0ea5e9,#38bdf8);}
+    .area-card--fintech::before{background:linear-gradient(90deg,#10b981,#34d399);}
+    .area-icon{font-size:28px;margin-bottom:14px;}
+    .area-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:10px;}
+    .area-text{font-size:13.5px;color:var(--text-muted);line-height:1.8;}
+    .area-text strong{color:var(--text);}
+    /* PARTNER CARDS */
+    .partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .partner-card{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);padding:24px 20px;}
+    .partner-logo{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+    .partner-title{font-family:var(--font-display);font-size:16px;font-weight:700;color:white;margin-bottom:8px;}
+    .partner-text{font-size:13px;color:rgba(255,255,255,.48);line-height:1.7;}
+    /* TIMELINE INVESTIMENTI */
+    .inv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+    .inv-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;box-shadow:var(--shadow-sm);}
+    .inv-year{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+    .inv-kpi{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;}
+    .inv-interp{font-size:12px;color:var(--text-muted);line-height:1.5;}
+    /* TABLE */
+    .tbl{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);font-size:13px;}
+    .tbl thead tr{background:var(--text);}
+    .tbl thead th{padding:12px 18px;text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;}
+    .tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+    .tbl tbody tr:hover{background:var(--bg-2);}
+    .tbl tbody td{padding:12px 18px;}
+    .tbl tbody td:first-child{font-weight:700;color:var(--accent);}
+    /* COMMENT */
+    .comment{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-left:3px solid var(--teal);border-radius:var(--radius);padding:28px 34px;}
+    .comment p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:10px;}
+    .comment p:last-child{margin-bottom:0;}
+    .comment strong{color:rgba(255,255,255,.82);}
+    /* FONTI */
+    .fonti-box{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);padding:20px 28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+    .fonti-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;flex-shrink:0;}
+    .fonte-pill{display:inline-flex;align-items:center;padding:5px 13px;border-radius:40px;font-size:11px;background:rgba(255,255,255,.04);border:1px solid var(--border-dark);color:rgba(255,255,255,.42);}
+    .footer{background:var(--bg-dark);padding:40px 60px;border-top:1px solid var(--border-dark);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .footer-logo{display:flex;align-items:center;gap:10px;}
+    .footer-note{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
+    .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);padding:8px 18px;border-radius:40px;transition:all .2s;}
+    .footer-back:hover{background:rgba(200,169,110,.08);}
+    .reveal{opacity:0;transform:translateY(18px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){
+      .navbar{padding:16px 24px;}.nav-links{display:none;}
+      .hero{padding:120px 24px 64px;}.hero-inner{grid-template-columns:1fr;gap:28px;}.hero-source{text-align:left;white-space:normal;}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px;}
+      .area-grid,.partner-grid,.inv-grid{grid-template-columns:1fr 1fr;}
+      .kpi-strip{grid-template-columns:repeat(2,1fr);}
+      .footer-inner{flex-direction:column;gap:20px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <a href="index.html" class="logo"><span class="logo-db">DB</span><span class="logo-text">Deutsche Bank</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a><a href="sistema-finanziario.html">Sist. Fin.</a>
+    <a href="sistema-bancario.html">Sist. Banc.</a><a href="quote-mercato.html">Quote</a>
+    <a href="business-model.html">Business Model</a><a href="struttura-organizzativa.html">Struttura</a>
+    <a href="crisi.html">Crisi</a><a href="rating.html">Rating</a>
+    <a href="digitalizzazione.html" class="active">Digital</a>
+  </nav>
+  <a href="index.html" class="nav-back"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 08 &middot; Project Work &middot; Innovazione Tecnologica</span>
+      <h1 class="hero-title">Trasf.<br><em>Digitale</em></h1>
+      <p class="hero-sub">Roadmap tecnologica, investimenti in AI, cloud e cybersecurity, partnership fintech e programma API open banking di Deutsche Bank.</p>
+    </div>
+    <div class="hero-source"><strong>Fonte dati</strong>Annual Report DB 2021&ndash;2024<br>Google Cloud &middot; NVIDIA &middot; Microsoft 365<br>Deutsche Bank API Program</div>
+  </div>
+</section>
+
+<!-- INTRO & KPI -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--teal">Strategia Tecnologica</span>
+      <h2 class="sec-title sec-title--white">Digitalizzazione di Deutsche Bank</h2>
+      <p class="sec-desc sec-desc--white">Negli ultimi anni Deutsche Bank ha inserito la digitalizzazione tra le priorit&agrave; strategiche del gruppo. La banca considera la tecnologia come uno strumento per trasformare il modello di business, migliorare l&rsquo;efficienza interna, rafforzare i controlli e offrire servizi pi&ugrave; rapidi ai clienti.</p>
+    </div>
+    <div class="kpi-strip reveal">
+      <div class="kpi-item"><div class="kpi-val">&gt;1B&euro;</div><div class="kpi-lbl">Investito in controlli 2023</div></div>
+      <div class="kpi-item"><div class="kpi-val">1.2B&euro;</div><div class="kpi-lbl">Investito in controlli 2024</div></div>
+      <div class="kpi-item"><div class="kpi-val">1.300</div><div class="kpi-lbl">Specialisti tech assunti 2024</div></div>
+      <div class="kpi-item"><div class="kpi-val">4</div><div class="kpi-lbl">Aree di innovazione core</div></div>
+    </div>
+    <div class="comment reveal">
+      <p>Il livello di digitalizzazione di Deutsche Bank pu&ograve; essere considerato <strong>elevato</strong>, perch&eacute; riguarda sia il <strong>front-end</strong> (il rapporto con i clienti) sia il <strong>back-end</strong> (i processi interni, la gestione dei dati, il rischio e la sicurezza).</p>
+      <p>Dagli annual report emerge che Deutsche Bank sta lavorando su pi&ugrave; aree: <strong>cloud, dati, intelligenza artificiale, sicurezza informatica</strong>, digitalizzazione dei processi interni e canali digitali per la clientela. Nel 2023, ad esempio, il Technology, Data and Innovation Committee si &egrave; concentrato su strategia tecnologica di gruppo, data management, programmi tecnologici bank-wide, cyber security, information security e innovazioni in ambito <strong>artificial intelligence e machine learning</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 AREE TEMATICHE -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Aree di Innovazione</span>
+      <h2 class="sec-title">Le 4 Aree Tematiche Principali</h2>
+      <p class="sec-desc">Le dimensioni dell&rsquo;innovazione tecnologica su cui Deutsche Bank ha concentrato investimenti e risorse negli anni 2021&ndash;2024.</p>
+    </div>
+    <div class="area-grid reveal">
+      <div class="area-card area-card--ai">
+        <div class="area-icon">&#129302;</div>
+        <div class="area-title">Intelligenza Artificiale &amp; Machine Learning</div>
+        <div class="area-text">Deutsche Bank indica l&rsquo;intelligenza artificiale come una delle aree di innovazione monitorate dal proprio Technology, Data and Innovation Committee. L&rsquo;obiettivo &egrave; usare l&rsquo;AI per migliorare <strong>analisi dei dati, automazione, controlli, gestione del rischio e servizi ai clienti</strong>.<br><br>A dimostrazione di ci&ograve;, Deutsche Bank ha avviato una <strong>partnership con NVIDIA</strong> per integrare l&rsquo;intelligenza artificiale nei servizi finanziari, combinando la propria esperienza bancaria con le capacit&agrave; tecnologiche di NVIDIA in AI e accelerated computing.</div>
+      </div>
+      <div class="area-card area-card--cyber">
+        <div class="area-icon">&#128274;</div>
+        <div class="area-title">Cybersecurity &amp; Information Security</div>
+        <div class="area-text">Deutsche Bank include <strong>cyber security e information security</strong> tra i temi centrali della governance tecnologica. Questo &egrave; particolarmente importante perch&eacute; una banca digitale gestisce enormi quantit&agrave; di dati sensibili e deve proteggere clienti, transazioni e infrastrutture critiche.<br><br>La sicurezza informatica &egrave; monitorata direttamente dal Technology, Data and Innovation Committee ed &egrave; parte integrante della strategia tecnologica bank-wide.</div>
+      </div>
+      <div class="area-card area-card--ms">
+        <div class="area-icon">&#128188;</div>
+        <div class="area-title">Cloud &amp; Microsoft 365</div>
+        <div class="area-text">Deutsche Bank utilizza tecnologie Microsoft per cloud e modernizzazione del lavoro interno. Ha adottato <strong>Microsoft 365</strong> (inclusi Exchange Online, OneDrive e SharePoint) come parte della propria trasformazione cloud &mdash; che riguarda la digitalizzazione dei processi interni, collaborazione tra dipendenti, gestione documentale e sicurezza operativa.<br><br>In un documento del 2024, Deutsche Bank afferma che il cloud &egrave; la <strong>base della trasformazione tecnologica</strong> e serve a sfruttare meglio Generative AI e Large Language Models per dipendenti e clienti.</div>
+      </div>
+      <div class="area-card area-card--fintech">
+        <div class="area-icon">&#128279;</div>
+        <div class="area-title">Fintech &amp; Open Banking</div>
+        <div class="area-text">Deutsche Bank collabora con fintech e diversi partner tecnologici &mdash; non sviluppa tutto internamente, ma collabora con aziende esterne per accelerare innovazione, automazione, data analytics, cybersecurity e nuovi servizi digitali.<br><br>Un elemento importante &egrave; il <strong>Deutsche Bank API Program</strong>, una piattaforma di open banking aperta a fintech, startup e imprese di altri settori. Attraverso le API, soggetti terzi possono collegarsi in modo sicuro ai servizi bancari e costruire soluzioni digitali basate su dati, pagamenti, identit&agrave; e servizi finanziari.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--teal">Partnership Strategiche</span>
+      <h2 class="sec-title sec-title--white">I Principali Partner Tecnologici</h2>
+      <p class="sec-desc sec-desc--white">Le collaborazioni chiave che alimentano la trasformazione digitale del gruppo.</p>
+    </div>
+    <div class="partner-grid reveal">
+      <div class="partner-card">
+        <div class="partner-logo">Google Cloud</div>
+        <div class="partner-title">Cloud Infrastructure &amp; AI</div>
+        <div class="partner-text">Partnership strategica firmata nel 2020 per accelerare la transizione al cloud e co-sviluppare nuovi servizi finanziari digitali. Fondamentale per Generative AI e Large Language Models.</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-logo">NVIDIA</div>
+        <div class="partner-title">AI &amp; Accelerated Computing</div>
+        <div class="partner-text">Collaborazione per integrare l&rsquo;intelligenza artificiale nei servizi finanziari, combinando l&rsquo;esperienza bancaria di DB con le capacit&agrave; di NVIDIA in AI e accelerated computing.</div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-logo">Microsoft</div>
+        <div class="partner-title">Microsoft 365 &amp; Cloud</div>
+        <div class="partner-text">Adozione di Microsoft 365 (Exchange Online, OneDrive, SharePoint) per la trasformazione del lavoro interno, collaborazione tra dipendenti e sicurezza operativa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTI -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Investimenti &amp; Risultati</span>
+      <h2 class="sec-title">Andamento degli Investimenti in Tecnologia 2021&ndash;2024</h2>
+      <p class="sec-desc">Indicazioni quantitative estratte dagli Annual Report Deutsche Bank 2021&ndash;2024.</p>
+    </div>
+    <div class="inv-grid reveal">
+      <div class="inv-card">
+        <div class="inv-year">2021</div>
+        <div class="inv-kpi">CIR 84.6%</div>
+        <div class="inv-interp">Ricavi totali circa 25,4 mld &euro; &mdash; banca ancora in fase di trasformazione, costi elevati</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-year">2022</div>
+        <div class="inv-kpi">CIR 75%</div>
+        <div class="inv-interp">Utile ante imposte 5,6 mld &euro; &mdash; migliora la redditivit&agrave;, la banca finanzia gli investimenti da risorse proprie</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-year">2023</div>
+        <div class="inv-kpi">&gt;&euro;1 mld</div>
+        <div class="inv-interp">Oltre 1 mld &euro; investito in controlli; investimenti in tecnologia, processi e piattaforme &mdash; digitalizzazione usata per rafforzare efficienza e controllo</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-year">2024</div>
+        <div class="inv-kpi">&euro;1.2 mld</div>
+        <div class="inv-interp">1,2 mld &euro; in controlli e 1.300 specialisti tecnologici assunti &mdash; prosegue l&rsquo;investimento in tecnologia, compliance e automazione</div>
+      </div>
+    </div>
+    <table class="tbl reveal">
+      <thead><tr><th>Anno</th><th>Indicazione principale</th><th>Interpretazione</th></tr></thead>
+      <tbody>
+        <tr><td>2021</td><td>Ricavi totali circa 25,4 mld &euro;, cost/income ratio 84,6%</td><td>Banca ancora in fase di trasformazione, costi elevati</td></tr>
+        <tr><td>2022</td><td>Utile ante imposte 5,6 mld &euro;, cost/income ratio 75%</td><td>Migliora la redditivit&agrave;, banca finanzia investimenti da risorse proprie</td></tr>
+        <tr><td>2023</td><td>Oltre 1 mld &euro; investito in controlli; investimenti in tecnologia, processi e piattaforme</td><td>Digitalizzazione usata per rafforzare efficienza e controllo</td></tr>
+        <tr><td>2024</td><td>1,2 mld &euro; in controlli e 1.300 specialisti tecnologici assunti</td><td>Prosegue l&rsquo;investimento in tecnologia, compliance e automazione</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FONTI -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="fonti-box reveal">
+      <span class="fonti-label">Fonti</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2021</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2022</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2023</span>
+      <span class="fonte-pill">Annual Report Deutsche Bank 2024</span>
+      <span class="fonte-pill">Google Cloud Partnership</span>
+      <span class="fonte-pill">NVIDIA Collaboration</span>
+      <span class="fonte-pill">Microsoft 365 Deployment</span>
+      <span class="fonte-pill">Deutsche Bank API Program</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-db">DB</span><span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span></div>
+    <p class="footer-note">Progetto Universitario &middot; Sezione 8 &ndash; Trasformazione Digitale &middot; 2025</p>
+    <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.transition="opacity .55s ease,transform .55s ease";x.target.style.opacity="1";x.target.style.transform="translateY(0)";io.unobserve(x.target);}});},{threshold:.07});
+document.querySelectorAll(".reveal").forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";io.observe(el);});
+</script>
+</body>
+</html>

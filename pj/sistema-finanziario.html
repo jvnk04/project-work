@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Sistema Finanziario – Sezione 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#f7f8fc; --bg-2:#eef0f6; --bg-dark:#0d1117; --bg-dark-2:#131926; --bg-card:#ffffff;
+      --accent:#c8a96e; --accent-2:#1d4ed8; --accent-hover:#e0bf80;
+      --text:#1a1f2e; --text-muted:#6b7280;
+      --border:rgba(0,0,0,0.07); --border-dark:rgba(255,255,255,0.07);
+      --radius:14px;
+      --font-display:'Playfair Display',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --shadow-sm:0 2px 12px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.65;}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(247,248,252,0.95);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-db{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-weight:500;font-size:15px;color:var(--text);letter-spacing:.02em;}
+    .nav-links{display:flex;gap:22px;}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-back:hover{color:var(--accent);}
+    .hero{background:var(--bg-dark);padding:140px 60px 88px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    .hero::after{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,110,.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px;position:relative;z-index:1;animation:fadeUp .8s ease both;}
+    .hero-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;font-weight:500;}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,78px);font-weight:900;line-height:.92;color:white;letter-spacing:-.02em;}
+    .hero-title em{font-style:italic;color:var(--accent);}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.42);margin-top:22px;max-width:500px;line-height:1.75;font-weight:300;}
+    .hero-source{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2);border-radius:10px;padding:18px 24px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;text-align:right;line-height:1.9;white-space:nowrap;}
+    .hero-source strong{color:var(--accent);display:block;font-size:12px;margin-bottom:4px;}
+    .sec-light{background:var(--bg);padding:80px 60px;}
+    .sec-alt{background:var(--bg-2);padding:80px 60px;}
+    .sec-dark{background:var(--bg-dark);padding:80px 60px;}
+    .sec-inner{max-width:1100px;margin:0 auto;}
+    .sec-head{margin-bottom:44px;}
+    .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:500;margin-bottom:10px;display:block;}
+    .sec-label--gold{color:var(--accent);}
+    .sec-title{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:10px;}
+    .sec-title--white{color:white;}
+    .sec-desc{font-size:14px;color:var(--text-muted);max-width:640px;line-height:1.8;}
+    .sec-desc--white{color:rgba(255,255,255,.38);}
+    .kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;margin-bottom:48px;}
+    .kpi-item{padding:24px 16px;border-right:1px solid var(--border-dark);text-align:center;}
+    .kpi-item:last-child{border-right:none;}
+    .kpi-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--accent);}
+    .kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:5px;line-height:1.5;}
+    .kpi-delta{font-size:10px;margin-top:4px;}
+    .kpi-delta.neg{color:#ef4444;} .kpi-delta.pos{color:#10b981;}
+    .chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);}
+    .chart-wrap-h{position:relative;height:260px;}.chart-card canvas{width:100%!important;}
+    .chart-ttl{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .chart-sub{font-size:11px;color:var(--text-muted);margin-bottom:20px;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+    .tbl{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);font-size:12.5px;}
+    .tbl thead tr{background:var(--text);}
+    .tbl thead th{padding:12px 14px;text-align:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;}
+    .tbl thead th:first-child{text-align:left;}
+    .tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+    .tbl tbody tr:hover{background:var(--bg-2);}
+    .tbl tbody td{padding:10px 14px;text-align:center;}
+    .tbl tbody td:first-child{text-align:left;font-weight:600;}
+    .row-de td{color:var(--accent)!important;font-weight:700!important;background:rgba(200,169,110,.04);}
+    .rank-chip{display:inline-block;font-size:10px;padding:2px 8px;border-radius:40px;background:rgba(59,130,246,.12);color:var(--accent-2);font-weight:600;}
+    .rank-chip.gold{background:rgba(200,169,110,.12);color:var(--accent);}
+    .pos-cell{color:#10b981;font-weight:600;} .neg-cell{color:#ef4444;font-weight:600;}
+    .comment{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-left:3px solid var(--accent);border-radius:var(--radius);padding:28px 34px;}
+    .comment p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:10px;}
+    .comment p:last-child{margin-bottom:0;}
+    .comment strong{color:rgba(255,255,255,.82);}
+    .country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .c-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;box-shadow:var(--shadow-sm);}
+    .c-card-de{border-top:3px solid var(--accent);}
+    .c-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;}
+    .c-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
+    .c-row:last-child{border-bottom:none;}
+    .c-lbl{font-size:11px;color:var(--text-muted);}
+    .c-val{font-size:12.5px;font-weight:600;color:var(--text);}
+    .c-val.accent{color:var(--accent);}
+    .footer{background:var(--bg-dark);padding:40px 60px;border-top:1px solid var(--border-dark);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .footer-logo{display:flex;align-items:center;gap:10px;}
+    .footer-note{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
+    .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);padding:8px 18px;border-radius:40px;transition:all .2s;}
+    .footer-back:hover{background:rgba(200,169,110,.08);}
+    .reveal{opacity:0;transform:translateY(18px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){
+      .navbar{padding:16px 24px;}.nav-links{display:none;}
+      .hero{padding:120px 24px 64px;}.hero-inner{grid-template-columns:1fr;gap:28px;}.hero-source{text-align:left;white-space:normal;}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px;}
+      .grid-2,.country-grid{grid-template-columns:1fr;}
+      .kpi-strip{grid-template-columns:repeat(3,1fr);}
+      .footer-inner{flex-direction:column;gap:20px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <a href="index.html" class="logo"><span class="logo-db">DB</span><span class="logo-text">Deutsche Bank</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a><a href="sistema-finanziario.html" class="active">Sist. Finanziario</a>
+    <a href="sistema-bancario.html">Sist. Bancario</a><a href="quote-mercato.html">Quote</a>
+    <a href="business-model.html">Business Model</a><a href="struttura-organizzativa.html">Struttura Org.</a>
+  </nav>
+  <a href="index.html" class="nav-back"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 01 · Project Work · Sistema Finanziario</span>
+      <h1 class="hero-title">Sistema<br><em>Finanziario</em></h1>
+      <p class="hero-sub">Indicatori di sviluppo finanziario della Germania, ranking internazionale e confronto competitivo con le principali economie mondiali — IMF Financial Development Index.</p>
+    </div>
+    <div class="hero-source"><strong>Fonte dati</strong>IMF Financial Development Index<br>World Bank · ECB SDW<br>Dati aggiornati 2022–2024</div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">IMF Financial Development Index</span>
+      <h2 class="sec-title sec-title--white">Indicatori Chiave · Germania</h2>
+      <p class="sec-desc sec-desc--white">Posizionamento della Germania sui principali indici FD rispetto a Mondo, UE, Eurozona e benchmark internazionali.</p>
+    </div>
+    <div class="kpi-strip reveal">
+      <div class="kpi-item"><div class="kpi-val">0.702</div><div class="kpi-lbl">Fin. Development</div><div class="kpi-delta pos">▲ vs Mondo 0.331</div></div>
+      <div class="kpi-item"><div class="kpi-val">0.621</div><div class="kpi-lbl">Fin. Institutions</div><div class="kpi-delta pos">▲ vs Mondo 0.436</div></div>
+      <div class="kpi-item"><div class="kpi-val">0.756</div><div class="kpi-lbl">Fin. Markets</div><div class="kpi-delta pos">▲ vs Mondo 0.239</div></div>
+      <div class="kpi-item"><div class="kpi-val">43.9%</div><div class="kpi-lbl">Stock Mkt Cap / PIL</div><div class="kpi-delta neg">▼ vs USA 213%</div></div>
+      <div class="kpi-item"><div class="kpi-val">36%</div><div class="kpi-lbl">Market Fin. Share</div><div class="kpi-delta neg">▼ vs UK 54% · USA 82%</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi 1 · Indicatori FD</span>
+      <h2 class="sec-title">Confronto su 7 Dimensioni — Germania vs Benchmark</h2>
+      <p class="sec-desc">Financial Development, FI, FI Depth, FI Access, Financial Markets, FM Depth, FM Access. Fonte: IMF FD Index.</p>
+    </div>
+    <div class="grid-2 reveal" style="margin-bottom:24px;">
+      <div class="chart-card"><div class="chart-ttl">Indicatori FD · Germania vs Aree Geografiche</div><div class="chart-sub">Grouped bar — scala 0–1 · IMF Financial Development Index</div><div class="chart-wrap-h"><canvas id="c1"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">Radar · Germania vs Principali Economie</div><div class="chart-sub">7 dimensioni FD — confronto competitivo internazionale</div><div class="chart-wrap-h"><canvas id="c4"></canvas></div></div>
+    </div>
+    <div class="grid-2 reveal">
+      <div class="chart-card"><div class="chart-ttl">Ranking Germania per Dimensione FD</div><div class="chart-sub">Posizione su 178 paesi (Mondo), 27 (UE), 20 (Eurozona) — inferiore = migliore</div><div class="chart-wrap-h"><canvas id="c2"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">Scarto % Germania vs Benchmark</div><div class="chart-sub">Valori positivi = Germania superiore al benchmark di riferimento</div><div class="chart-wrap-h"><canvas id="c3"></canvas></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Dati Tabellari</span>
+      <h2 class="sec-title">Tabella Indicatori FD · Confronto Internazionale</h2>
+      <p class="sec-desc">Valori degli indici per le principali economie. Fonte: IMF Financial Development Index.</p>
+    </div>
+    <table class="tbl reveal" style="margin-bottom:20px;">
+      <thead><tr><th>Area / Paese</th><th>Fin. Dev.</th><th>Fin. Inst.</th><th>FI Depth</th><th>FI Access</th><th>Fin. Mkt</th><th>FM Depth</th><th>FM Access</th></tr></thead>
+      <tbody>
+        <tr class="row-de"><td>🇩🇪 Germania</td><td>0.702</td><td>0.621</td><td>0.642</td><td>0.459</td><td>0.756</td><td>0.725</td><td>0.537</td></tr>
+        <tr><td>🌐 Mondo (175)</td><td>0.331</td><td>0.436</td><td>0.291</td><td>0.363</td><td>0.239</td><td>0.255</td><td>0.361</td></tr>
+        <tr><td>🇪🇺 Unione Europea</td><td>0.528</td><td>0.613</td><td>0.502</td><td>0.548</td><td>0.422</td><td>0.399</td><td>0.457</td></tr>
+        <tr><td>💶 Eurozona</td><td>0.702</td><td>0.617</td><td>0.526</td><td>0.545</td><td>0.465</td><td>0.449</td><td>0.513</td></tr>
+        <tr><td>🇺🇸 Stati Uniti</td><td>0.917</td><td>0.898</td><td>0.804</td><td>0.833</td><td>0.900</td><td>0.988</td><td>0.655</td></tr>
+        <tr><td>🇬🇧 Regno Unito</td><td>0.836</td><td>0.786</td><td>1.000</td><td>0.429</td><td>0.854</td><td>0.989</td><td>0.694</td></tr>
+        <tr><td>🇯🇵 Giappone</td><td>0.888</td><td>0.885</td><td>0.692</td><td>0.899</td><td>0.856</td><td>0.903</td><td>0.618</td></tr>
+        <tr><td>🇫🇷 Francia</td><td>0.815</td><td>0.847</td><td>0.804</td><td>0.802</td><td>0.751</td><td>0.905</td><td>0.500</td></tr>
+        <tr><td>🇨🇳 Cina</td><td>0.634</td><td>0.608</td><td>0.486</td><td>0.461</td><td>0.635</td><td>0.683</td><td>0.186</td></tr>
+      </tbody>
+    </table>
+    <div class="grid-2 reveal">
+      <table class="tbl">
+        <thead><tr><th>Benchmark</th><th>Fin.Dev.</th><th>Fin.Inst.</th><th>FI Depth</th><th>FI Access</th><th>Fin.Mkt</th><th>FM Depth</th><th>FM Access</th></tr></thead>
+        <tbody>
+          <tr><td>vs Mondo (178)</td><td><span class="rank-chip">18°</span></td><td><span class="rank-chip">35°</span></td><td><span class="rank-chip">28°</span></td><td><span class="rank-chip">58°</span></td><td><span class="rank-chip">10°</span></td><td><span class="rank-chip">15°</span></td><td><span class="rank-chip">30°</span></td></tr>
+          <tr><td>vs UE (27)</td><td><span class="rank-chip gold">7°</span></td><td><span class="rank-chip gold">14°</span></td><td><span class="rank-chip gold">9°</span></td><td><span class="rank-chip gold">19°</span></td><td><span class="rank-chip gold">5°</span></td><td><span class="rank-chip gold">5°</span></td><td><span class="rank-chip gold">11°</span></td></tr>
+          <tr><td>vs Eurozona (20)</td><td><span class="rank-chip gold">6°</span></td><td><span class="rank-chip gold">10°</span></td><td><span class="rank-chip gold">7°</span></td><td><span class="rank-chip gold">13°</span></td><td><span class="rank-chip gold">4°</span></td><td><span class="rank-chip gold">4°</span></td><td><span class="rank-chip gold">9°</span></td></tr>
+        </tbody>
+      </table>
+      <table class="tbl">
+        <thead><tr><th>Dimensione</th><th>vs Mondo</th><th>vs UE</th><th>vs Eurozona</th></tr></thead>
+        <tbody>
+          <tr><td>Fin.Dev.</td><td class="pos-cell">+112%</td><td class="pos-cell">+33%</td><td class="pos-cell">0%</td></tr>
+          <tr><td>Fin.Mkt</td><td class="pos-cell">+216%</td><td class="pos-cell">+79%</td><td class="pos-cell">+63%</td></tr>
+          <tr><td>FM Depth</td><td class="pos-cell">+184%</td><td class="pos-cell">+82%</td><td class="pos-cell">+62%</td></tr>
+          <tr><td>FI Access</td><td class="pos-cell">+26%</td><td class="neg-cell">−16%</td><td class="neg-cell">−16%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi 2 · Mercati dei Capitali</span>
+      <h2 class="sec-title">Stock Market Cap, Bank Credit e Market Financing Share</h2>
+      <p class="sec-desc">Capitalizzazione di mercato, credito bancario (% PIL) e quota del finanziamento di mercato. Fonte: World Bank · ECB.</p>
+    </div>
+    <div class="grid-2 reveal" style="margin-bottom:24px;">
+      <div class="chart-card"><div class="chart-ttl">Stock Mkt Cap e Bank Credit (% PIL)</div><div class="chart-sub">Confronto internazionale — Fonte: World Bank</div><div class="chart-wrap-h"><canvas id="c6"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">Fin. Institutions vs Fin. Markets</div><div class="chart-sub">FI vs FM per paese — modello bank-based vs market-based · IMF</div><div class="chart-wrap-h"><canvas id="c5"></canvas></div></div>
+    </div>
+    <div class="chart-card reveal">
+      <div class="chart-ttl">Market Financing Share (%) — Quota del Finanziamento di Mercato</div>
+      <div class="chart-sub">Germania 36% — quota del finanziamento tramite mercati dei capitali sul totale · Fonte: ECB / EBF</div>
+      <div class="chart-wrap-h"><canvas id="c7"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="comment reveal">
+      <p>Il sistema finanziario tedesco è caratterizzato da un <strong>forte orientamento alle istituzioni bancarie</strong> (Fin. Institutions = 0.621) piuttosto che ai mercati dei capitali: la capitalizzazione di borsa rispetto al PIL è solo del 43.9% — nettamente al di sotto di USA (213%), Francia (99.4%), Cina (126.2%) e UK (83%). Il modello di finanziamento tedesco è dunque prevalentemente <strong>bank-based</strong>: le imprese si finanziano principalmente tramite credito bancario piuttosto che emissione di titoli.</p>
+      <p>La Germania mostra una <strong>market financing share del 36%</strong>, contro l'82% degli USA, il 54% del UK e il 53% del Giappone — confermando il ruolo centrale delle banche universali come Deutsche Bank nel sistema di allocazione del credito. Il bank credit/PIL al 77% è nella media europea, pur rimanendo al di sotto di UK (86%), Francia (111%) e Giappone (181%).</p>
+      <p>In termini di posizionamento internazionale, la Germania supera la media mondiale e UE su tutti gli indici FD, con i vantaggi più marcati su <strong>FM Depth (+184% vs Mondo)</strong> e <strong>Fin.Mkt (+216% vs Mondo)</strong>. Il punto di debolezza relativa è <strong>FI Access (posizione 58° su 178 paesi, −16% vs UE)</strong>, che riflette una struttura bancaria meno orientata all'accesso universale ai servizi finanziari rispetto ai benchmark europei più inclusivi.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi 3 · Confronto Paese per Paese</span>
+      <h2 class="sec-title">Profilo Finanziario per Economia</h2>
+      <p class="sec-desc">Schede sintetiche con i valori chiave degli indici FD per le principali economie mondiali.</p>
+    </div>
+    <div class="country-grid reveal">
+      <div class="c-card c-card-de">
+        <div class="c-name">🇩🇪 Germania <span style="font-size:10px;color:var(--text-muted);font-weight:400;">(riferimento)</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val accent">0.702</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.621</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.756</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val">43.9%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">77%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">36%</span></div>
+      </div>
+      <div class="c-card">
+        <div class="c-name">🇺🇸 Stati Uniti</div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val">0.917</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.898</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.900</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val" style="color:#10b981">213.1%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">46.1%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">82%</span></div>
+      </div>
+      <div class="c-card">
+        <div class="c-name">🇬🇧 Regno Unito</div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val">0.836</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.786</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.854</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val">83%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">86%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">54%</span></div>
+      </div>
+      <div class="c-card">
+        <div class="c-name">🇯🇵 Giappone</div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val">0.888</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.885</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.856</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val">112%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">181%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">53%</span></div>
+      </div>
+      <div class="c-card">
+        <div class="c-name">🇫🇷 Francia</div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val">0.815</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.847</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.751</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val">99.4%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">111%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">52%</span></div>
+      </div>
+      <div class="c-card">
+        <div class="c-name">🇨🇳 Cina</div>
+        <div class="c-row"><span class="c-lbl">Fin. Development</span><span class="c-val">0.634</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Institutions</span><span class="c-val">0.608</span></div>
+        <div class="c-row"><span class="c-lbl">Fin. Markets</span><span class="c-val">0.635</span></div>
+        <div class="c-row"><span class="c-lbl">Stock Mkt Cap / PIL</span><span class="c-val">126.2%</span></div>
+        <div class="c-row"><span class="c-lbl">Bank Credit / PIL</span><span class="c-val">104%</span></div>
+        <div class="c-row"><span class="c-lbl">Market Fin. Share</span><span class="c-val">31%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-db">DB</span><span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span></div>
+    <p class="footer-note">Progetto Universitario · Sezione 1 – Sistema Finanziario · 2025</p>
+    <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.transition='opacity .55s ease,transform .55s ease';x.target.style.opacity='1';x.target.style.transform='translateY(0)';io.unobserve(x.target);}});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';io.observe(el);});
+
+const GOLD='#c8a96e',BLUE='#3b82f6',GREEN='#10b981',RED='#f87171',PURPLE='#a78bfa',CYAN='#22d3ee';
+const CATS7=['Fin.Dev.','Fin.Inst.','FI Depth','FI Access','Fin.Mkt','FM Depth','FM Access'];
+const TIP={backgroundColor:'rgba(10,14,24,.96)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#94a3b8',padding:10};
+const GRD={color:'rgba(0,0,0,.055)',tickColor:'transparent'};
+const SC={x:{grid:GRD,ticks:{color:'#9ca3af',font:{size:10}}},y:{grid:GRD,ticks:{color:'#9ca3af',font:{size:10}}}};
+
+new Chart('c1',{type:'bar',data:{labels:CATS7,datasets:[
+  {label:'🇩🇪 Germania',data:[.702,.621,.642,.459,.756,.725,.537],backgroundColor:'rgba(200,169,110,.85)',borderRadius:3},
+  {label:'🌐 Mondo',data:[.331,.436,.291,.363,.239,.255,.361],backgroundColor:'rgba(71,85,105,.6)',borderRadius:3},
+  {label:'🇪🇺 UE',data:[.528,.613,.502,.548,.422,.399,.457],backgroundColor:'rgba(59,130,246,.72)',borderRadius:3},
+  {label:'💶 Eurozona',data:[.702,.617,.526,.545,.465,.449,.513],backgroundColor:'rgba(34,211,238,.48)',borderRadius:3},
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:TIP,legend:{labels:{color:'#6b7280',font:{size:10},padding:14,boxWidth:9,boxHeight:9}}},scales:{...SC,y:{...SC.y,min:0,max:.95}}}});
+
+new Chart('c4',{type:'radar',data:{labels:CATS7,datasets:[
+  {label:'🇩🇪 Germania',data:[.702,.621,.642,.459,.756,.725,.537],borderColor:GOLD,backgroundColor:'rgba(200,169,110,.1)',borderWidth:2.2,pointRadius:3,pointBackgroundColor:GOLD},
+  {label:'🇺🇸 USA',data:[.917,.898,.804,.833,.900,.988,.655],borderColor:BLUE,backgroundColor:'rgba(59,130,246,.05)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:BLUE},
+  {label:'🇬🇧 UK',data:[.836,.786,1.000,.429,.854,.989,.694],borderColor:RED,backgroundColor:'rgba(248,113,113,.04)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:RED},
+  {label:'🇯🇵 Giappone',data:[.888,.885,.692,.899,.856,.903,.618],borderColor:GREEN,backgroundColor:'rgba(16,185,129,.04)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:GREEN},
+  {label:'🇫🇷 Francia',data:[.815,.847,.804,.802,.751,.905,.500],borderColor:PURPLE,backgroundColor:'rgba(167,139,250,.03)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:PURPLE},
+  {label:'🇨🇳 Cina',data:[.634,.608,.486,.461,.635,.683,.186],borderColor:CYAN,backgroundColor:'rgba(34,211,238,.03)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:CYAN},
+]},options:{responsive:true,maintainAspectRatio:false,plugins:{tooltip:TIP,legend:{position:'bottom',labels:{color:'#6b7280',font:{size:10},padding:10,boxWidth:9,boxHeight:9}}},scales:{r:{min:0,max:1,ticks:{display:false},grid:{color:'rgba(0,0,0,.07)'},angleLines:{color:'rgba(0,0,0,.07)'},pointLabels:{color:'#9ca3af',font:{size:9}}}}}});
+
+new Chart('c2',{type:'bar',data:{labels:CATS7,datasets:[
+  {label:'vs Mondo (178)',data:[18,35,28,58,10,15,30],backgroundColor:'rgba(59,130,246,.75)',borderRadius:3},
+  {label:'vs UE (27)',data:[7,14,9,19,5,5,11],backgroundColor:'rgba(200,169,110,.75)',borderRadius:3},
+  {label:'vs Eurozona (20)',data:[6,10,7,13,4,4,9],backgroundColor:'rgba(16,185,129,.65)',borderRadius:3},
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:TIP,legend:{labels:{color:'#6b7280',font:{size:10},padding:12,boxWidth:9,boxHeight:9}}},scales:{...SC,y:{...SC.y,reverse:true,ticks:{...SC.y.ticks,callback:v=>v+'°'},title:{display:true,text:'← migliore posizione',color:'#9ca3af',font:{size:10}}}}}});
+
+new Chart('c3',{type:'bar',data:{labels:CATS7,datasets:[
+  {label:'vs Mondo (%)',data:[112.1,42.4,120.6,26.4,216.3,184.3,48.8],backgroundColor:'rgba(59,130,246,.75)',borderRadius:3},
+  {label:'vs UE (%)',data:[33,1.3,27.9,-16.2,79.1,81.7,17.5],backgroundColor:'rgba(200,169,110,.75)',borderRadius:3},
+  {label:'vs Eurozona (%)',data:[0,.6,22.1,-15.8,62.6,61.5,4.7],backgroundColor:'rgba(167,139,250,.7)',borderRadius:3},
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:{...TIP,callbacks:{label:c=>'  '+c.dataset.label.split('(')[0]+': '+c.raw.toFixed(1)+'%'}},legend:{labels:{color:'#6b7280',font:{size:10},padding:12,boxWidth:9,boxHeight:9}}},scales:{...SC,y:{...SC.y,ticks:{...SC.y.ticks,callback:v=>v+'%'}}}}});
+
+new Chart('c6',{type:'bar',data:{labels:['🇩🇪 DE','🇺🇸 USA','🇬🇧 UK','🇯🇵 JP','🇫🇷 FR','🇨🇳 CN'],datasets:[
+  {label:'Stock Mkt Cap (%PIL)',data:[43.9,213.1,83,112,99.4,126.2],backgroundColor:'rgba(200,169,110,.82)',borderRadius:4},
+  {label:'Bank Credit (%PIL)',data:[77,46.1,86,181,111,104],backgroundColor:'rgba(59,130,246,.75)',borderRadius:4},
+]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',interaction:{mode:'index',intersect:false},plugins:{tooltip:{...TIP,callbacks:{label:c=>'  '+c.dataset.label+': '+c.raw+'%'}},legend:{labels:{color:'#6b7280',font:{size:10},padding:14,boxWidth:9,boxHeight:9}}},scales:{x:{grid:GRD,ticks:{color:'#9ca3af',font:{size:10},callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:'#374151',font:{size:11,weight:'600'}}}}}});
+
+new Chart('c5',{type:'bar',data:{labels:['🇩🇪 DE','🌐 Mondo','🇪🇺 UE','💶 EZ','🇺🇸 USA','🇬🇧 UK','🇯🇵 JP','🇫🇷 FR','🇨🇳 CN'],datasets:[
+  {label:'Fin. Institutions (FI)',data:[.621,.436,.613,.617,.898,.786,.885,.847,.608],backgroundColor:'rgba(59,130,246,.75)',borderRadius:3},
+  {label:'Fin. Markets (FM)',data:[.756,.239,.422,.465,.900,.854,.856,.751,.635],backgroundColor:'rgba(200,169,110,.82)',borderRadius:3},
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:TIP,legend:{labels:{color:'#6b7280',font:{size:10},padding:14,boxWidth:9,boxHeight:9}}},scales:{...SC,y:{...SC.y,min:0,max:1}}}});
+
+new Chart('c7',{type:'bar',data:{labels:['🇩🇪 Germania','🇺🇸 USA','🇬🇧 UK','🇯🇵 Giappone','🇫🇷 Francia','🇨🇳 Cina'],datasets:[{label:'Market Financing Share (%)',data:[36,82,54,53,52,31],backgroundColor:['rgba(200,169,110,.88)','rgba(59,130,246,.82)','rgba(34,211,238,.72)','rgba(16,185,129,.72)','rgba(167,139,250,.72)','rgba(71,85,105,.75)'],borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>'  Market Share: '+c.raw+'%'}}},scales:{...SC,y:{...SC.y,min:0,max:100,ticks:{...SC.y.ticks,callback:v=>v+'%'}}}}});
+</script>
+</body>
+</html>

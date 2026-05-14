@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsche Bank | Sistema Bancario – Sezione 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#f7f8fc; --bg-2:#eef0f6; --bg-dark:#0d1117; --bg-dark-2:#131926; --bg-card:#ffffff;
+      --accent:#c8a96e; --accent-2:#1d4ed8; --accent-hover:#e0bf80;
+      --text:#1a1f2e; --text-muted:#6b7280;
+      --border:rgba(0,0,0,0.07); --border-dark:rgba(255,255,255,0.07);
+      --radius:14px;
+      --font-display:'Playfair Display',Georgia,serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --shadow-sm:0 2px 12px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.65;}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(247,248,252,0.95);backdrop-filter:blur(18px);box-shadow:0 1px 0 var(--border);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-db{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#000;font-family:var(--font-display);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-weight:500;font-size:15px;color:var(--text);letter-spacing:.02em;}
+    .nav-links{display:flex;gap:22px;}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);}
+    .nav-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s;}
+    .nav-back:hover{color:var(--accent);}
+    .hero{background:var(--bg-dark);padding:140px 60px 88px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    .hero::after{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,110,.07) 0%,transparent 70%);pointer-events:none;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px;position:relative;z-index:1;animation:fadeUp .8s ease both;}
+    .hero-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:block;font-weight:500;}
+    .hero-title{font-family:var(--font-display);font-size:clamp(44px,6vw,78px);font-weight:900;line-height:.92;color:white;letter-spacing:-.02em;}
+    .hero-title em{font-style:italic;color:var(--accent);}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.42);margin-top:22px;max-width:500px;line-height:1.75;font-weight:300;}
+    .hero-source{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2);border-radius:10px;padding:18px 24px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;text-align:right;line-height:1.9;white-space:nowrap;}
+    .hero-source strong{color:var(--accent);display:block;font-size:12px;margin-bottom:4px;}
+    .sec-light{background:var(--bg);padding:80px 60px;}
+    .sec-alt{background:var(--bg-2);padding:80px 60px;}
+    .sec-dark{background:var(--bg-dark);padding:80px 60px;}
+    .sec-inner{max-width:1100px;margin:0 auto;}
+    .sec-head{margin-bottom:44px;}
+    .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);font-weight:500;margin-bottom:10px;display:block;}
+    .sec-label--gold{color:var(--accent);}
+    .sec-title{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:10px;}
+    .sec-title--white{color:white;}
+    .sec-desc{font-size:14px;color:var(--text-muted);max-width:640px;line-height:1.8;}
+    .sec-desc--white{color:rgba(255,255,255,.38);}
+    .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg-dark-2);border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;margin-bottom:48px;}
+    .kpi-item{padding:24px 18px;border-right:1px solid var(--border-dark);text-align:center;}
+    .kpi-item:last-child{border-right:none;}
+    .kpi-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--accent);}
+    .kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);margin-top:5px;line-height:1.5;}
+    .chart-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);}
+    .chart-wrap-h{position:relative;height:260px;}.chart-card canvas{width:100%!important;}
+    .chart-ttl{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+    .chart-sub{font-size:11px;color:var(--text-muted);margin-bottom:20px;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+    .tbl{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);font-size:12.5px;}
+    .tbl thead tr{background:var(--text);}
+    .tbl thead th{padding:12px 14px;text-align:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;}
+    .tbl thead th:first-child{text-align:left;}
+    .tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+    .tbl tbody tr:hover{background:var(--bg-2);}
+    .tbl tbody td{padding:10px 14px;text-align:center;}
+    .tbl tbody td:first-child{text-align:left;font-weight:600;}
+    .peak-row td{color:var(--accent)!important;font-weight:700!important;}
+    .comment{background:var(--bg-dark-2);border:1px solid var(--border-dark);border-left:3px solid var(--accent);border-radius:var(--radius);padding:28px 34px;}
+    .comment p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:10px;}
+    .comment p:last-child{margin-bottom:0;}
+    .comment strong{color:rgba(255,255,255,.82);}
+    .comment--blue{border-left-color:var(--accent-2);}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:26px 24px;box-shadow:var(--shadow-sm);}
+    .info-tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:40px;font-weight:600;margin-bottom:12px;}
+    .info-tag--gold{background:rgba(200,169,110,.12);color:#a07940;}
+    .info-tag--blue{background:rgba(29,78,216,.1);color:var(--accent-2);}
+    .info-card h4{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text);margin-bottom:10px;}
+    .info-card p{font-size:13.5px;color:var(--text-muted);line-height:1.8;}
+    .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    .insight-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+    .insight-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-hover));}
+    .insight-icon{font-size:22px;margin-bottom:12px;}
+    .insight-title{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .insight-text{font-size:13px;color:var(--text-muted);line-height:1.7;}
+    .footer{background:var(--bg-dark);padding:40px 60px;border-top:1px solid var(--border-dark);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .footer-logo{display:flex;align-items:center;gap:10px;}
+    .footer-note{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
+    .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(200,169,110,.3);padding:8px 18px;border-radius:40px;transition:all .2s;}
+    .footer-back:hover{background:rgba(200,169,110,.08);}
+    .reveal{opacity:0;transform:translateY(18px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){
+      .navbar{padding:16px 24px;}.nav-links{display:none;}
+      .hero{padding:120px 24px 64px;}.hero-inner{grid-template-columns:1fr;gap:28px;}.hero-source{text-align:left;white-space:normal;}
+      .sec-light,.sec-alt,.sec-dark{padding:60px 24px;}
+      .grid-2,.info-grid,.insight-grid{grid-template-columns:1fr;}
+      .kpi-strip{grid-template-columns:repeat(2,1fr);}
+      .footer-inner{flex-direction:column;gap:20px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo"><span class="logo-db">DB</span><span class="logo-text">Deutsche Bank</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a><a href="sistema-finanziario.html">Sist. Finanziario</a>
+    <a href="sistema-bancario.html" class="active">Sist. Bancario</a><a href="quote-mercato.html">Quote</a>
+    <a href="business-model.html">Business Model</a><a href="struttura-organizzativa.html">Struttura Org.</a>
+  </nav>
+  <a href="index.html" class="nav-back"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-label">Sezione 02 · Project Work · Sistema Bancario Tedesco</span>
+      <h1 class="hero-title">Sistema<br><em>Bancario</em></h1>
+      <p class="hero-sub">Struttura e dinamiche del sistema bancario tedesco: andamento di banche e sportelli, presenza estera, grado di concentrazione CR5/HHI e trend evolutivi 2006–2026.</p>
+    </div>
+    <div class="hero-source"><strong>Fonte dati</strong>Deutsche Bundesbank · BaFin<br>ECB Statistical Data Warehouse<br>Dati 2006–2026</div>
+  </div>
+</section>
+
+<!-- ══════ 1. BANCHE & SPORTELLI ══════ -->
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label sec-label--gold">Analisi 1 · 2006–2026</span>
+      <h2 class="sec-title sec-title--white">Andamento Banche e Sportelli in Germania</h2>
+      <p class="sec-desc sec-desc--white">Numero di istituti di credito e sportelli bancari attivi negli ultimi 20 anni. Fonte: Deutsche Bundesbank.</p>
+    </div>
+    <div class="kpi-strip reveal">
+      <div class="kpi-item"><div class="kpi-val">2.084</div><div class="kpi-lbl">Istituti nel 2006</div></div>
+      <div class="kpi-item"><div class="kpi-val">1.254</div><div class="kpi-lbl">Istituti nel 2026 (prev.)</div></div>
+      <div class="kpi-item"><div class="kpi-val">40.282</div><div class="kpi-lbl">Sportelli nel 2006</div></div>
+      <div class="kpi-item"><div class="kpi-val" style="color:#ef4444">−56%</div><div class="kpi-lbl">Calo sportelli al 2024</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="grid-2 reveal" style="margin-bottom:24px;">
+      <div class="chart-card"><div class="chart-ttl">Numero di Istituti di Credito</div><div class="chart-sub">Germania · 2006–2026 · Fonte: Deutsche Bundesbank</div><div class="chart-wrap-h"><canvas id="cIst"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">Numero di Sportelli Bancari</div><div class="chart-sub">Germania · 2006–2024 · Fonte: Deutsche Bundesbank</div><div class="chart-wrap-h"><canvas id="cSpo"></canvas></div></div>
+    </div>
+
+    <table class="tbl reveal">
+      <thead><tr><th>Anno</th><th>Istituti di Credito</th><th>Sportelli</th><th>Var. Istituti</th></tr></thead>
+      <tbody>
+        <tr><td>2006</td><td>2.084</td><td>40.282</td><td style="color:var(--text-muted)">—</td></tr>
+        <tr><td>2008</td><td>2.021</td><td>39.531</td><td style="color:#ef4444">−63</td></tr>
+        <tr><td>2010</td><td>1.948</td><td>38.149</td><td style="color:#ef4444">−73</td></tr>
+        <tr><td>2012</td><td>1.894</td><td>36.239</td><td style="color:#ef4444">−54</td></tr>
+        <tr><td>2015</td><td>1.807</td><td>34.001</td><td style="color:#ef4444">−87</td></tr>
+        <tr><td>2017</td><td>1.695</td><td>30.072</td><td style="color:#ef4444">−112</td></tr>
+        <tr><td>2019</td><td>1.583</td><td>26.620</td><td style="color:#ef4444">−112</td></tr>
+        <tr><td>2020</td><td>1.531</td><td>24.060</td><td style="color:#ef4444">−52</td></tr>
+        <tr><td>2021</td><td>1.495</td><td>21.697</td><td style="color:#ef4444">−36</td></tr>
+        <tr><td>2022</td><td>1.438</td><td>20.432</td><td style="color:#ef4444">−57</td></tr>
+        <tr><td>2023</td><td>1.386</td><td>19.488</td><td style="color:#ef4444">−52</td></tr>
+        <tr><td>2024</td><td>1.333</td><td>17.857</td><td style="color:#ef4444">−53</td></tr>
+        <tr><td>2025</td><td>1.292</td><td>—</td><td style="color:#ef4444">−41</td></tr>
+        <tr class="peak-row"><td>2026 (prev.)</td><td>1.254</td><td>—</td><td>−38</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="comment reveal">
+      <p>Il numero di istituti di credito in Germania è in <strong>calo strutturale ininterrotto</strong> da oltre un decennio: da 2.084 banche nel 2006 a una stima di 1.254 nel 2026, con una riduzione di circa il 40% in vent'anni. Allo stesso modo, il numero di sportelli fisici è crollato da 40.282 nel 2006 a 17.857 nel 2024 — nel 2023 il numero è sceso per la prima volta sotto le 20.000 unità.</p>
+      <p>Tra i fattori principali incidono la <strong>digitalizzazione costante dei servizi</strong> (meno ricorso agli sportelli fisici), il <strong>forte aumento dei costi operativi</strong> e il <strong>consolidamento del settore</strong> attraverso la razionalizzazione delle reti. Tale razionalizzazione ha portato le banche tedesche a eliminare le filiali in aree a bassa domanda e a riallocare le risorse in canali e servizi in grado di creare maggiore valore aggiunto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 2. BANCHE ESTERE ══════ -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi 2 · 2006–2024</span>
+      <h2 class="sec-title">Presenza di Banche Estere in Germania</h2>
+      <p class="sec-desc">Numero di subsidiaries EU e non-EU presenti nel sistema bancario tedesco. Fonte: Deutsche Bundesbank / BaFin.</p>
+    </div>
+    <div class="grid-2 reveal" style="margin-bottom:24px;">
+      <div class="chart-card"><div class="chart-ttl">Subsidiaries EU e Non-EU in Germania</div><div class="chart-sub">2006–2024 · Fonte: Deutsche Bundesbank / BaFin</div><div class="chart-wrap-h"><canvas id="cEst"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">Distribuzione per Origine · 2024</div><div class="chart-sub">Non-EU 18 · EU 10 · Totale 28</div><div class="chart-wrap-h"><canvas id="cPie"></canvas></div></div>
+    </div>
+
+    <table class="tbl reveal" style="margin-bottom:24px;">
+      <thead><tr><th>Anno</th><th>Non-EU Subsidiaries</th><th>EU Subsidiaries</th><th>Totale</th></tr></thead>
+      <tbody>
+        <tr><td>2006</td><td>9</td><td>5</td><td>14</td></tr>
+        <tr><td>2007</td><td>10</td><td>7</td><td>17</td></tr>
+        <tr><td>2008</td><td>10</td><td>7</td><td>17</td></tr>
+        <tr class="peak-row"><td>2009</td><td>12</td><td>18</td><td>30 ↑ picco</td></tr>
+        <tr class="peak-row"><td>2010</td><td>15</td><td>25</td><td>40 ↑ massimo</td></tr>
+        <tr class="peak-row"><td>2011</td><td>15</td><td>25</td><td>40</td></tr>
+        <tr><td>2012</td><td>15</td><td>23</td><td>38</td></tr>
+        <tr><td>2013</td><td>15</td><td>22</td><td>37</td></tr>
+        <tr><td>2015</td><td>16</td><td>18</td><td>34</td></tr>
+        <tr><td>2017</td><td>17</td><td>17</td><td>34</td></tr>
+        <tr><td>2019</td><td>16</td><td>17</td><td>33</td></tr>
+        <tr><td>2020</td><td>19</td><td>13</td><td>32</td></tr>
+        <tr><td>2022</td><td>21</td><td>12</td><td>33</td></tr>
+        <tr><td>2023</td><td>19</td><td>11</td><td>30</td></tr>
+        <tr><td>2024</td><td>18</td><td>10</td><td>28</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-grid reveal">
+      <div class="info-card">
+        <span class="info-tag info-tag--gold">Filiali (Branches)</span>
+        <h4>Filiali di Banche Estere</h4>
+        <p>Il numero di filiali di banche estere in Germania si aggira tra le <strong>40 e 50 filiali</strong>. Tra le più presenti si annoverano banche svizzere, banche britanniche e banche statunitensi. Operano con licenza del paese d'origine, senza richiedere una licenza bancaria tedesca autonoma.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-tag info-tag--blue">Subsidiaries</span>
+        <h4>Subsidiaries (Società Controllate)</h4>
+        <p>Le subsidiaries sono <strong>società di diritto tedesco controllate da una banca estera</strong>, le quali richiedono una licenza bancaria completa rilasciata dalla BaFin. Ad oggi il numero si aggira tra le <strong>30 e le 40</strong>. Le più rilevanti sono <strong>UniCredit Bank AG</strong> e <strong>BNP Paribas S.A. Niederlassung Deutschland</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="comment comment--blue reveal">
+      <p>La crescita nel numero di banche estere <strong>non europee</strong> presenti in Germania è da imputarsi all'intensificarsi della <strong>globalizzazione finanziaria</strong>: le banche estere, attratte dalla stabilità e potenza economica tedesca, hanno progressivamente aumentato la propria presenza fisica.</p>
+      <p>Si assiste ad un picco nelle subsidiaries EU coincidente con la <strong>crisi del 2008</strong>: la chiusura massiva di filiali durante la crisi ha portato all'apertura di subsidiaries, anche per la preferenza da parte dei governi di avere entità autonome e più controllabili, dato il forte clima di sfiducia. Superata la crisi, <strong>normative più stringenti</strong> hanno ridotto la convenienza nel tenere subsidiaries, portando alla chiusura di quelle meno efficienti.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 3. CONCENTRAZIONE CR5 / HHI ══════ -->
+<section class="sec-alt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Analisi 3 · Concentrazione</span>
+      <h2 class="sec-title">Grado di Concentrazione – CR5 e HHI</h2>
+      <p class="sec-desc">Quota delle 5 maggiori banche (CR5) e indice Herfindahl-Hirschman (HHI). Sistema bancario tedesco 2006–2023.</p>
+    </div>
+    <div class="grid-2 reveal" style="margin-bottom:24px;">
+      <div class="chart-card"><div class="chart-ttl">CR5 — Quota delle 5 Maggiori Banche (%)</div><div class="chart-sub">Germania · 2006–2023 · Fonte: ECB SDW</div><div class="chart-wrap-h"><canvas id="cCR5"></canvas></div></div>
+      <div class="chart-card"><div class="chart-ttl">HHI — Indice di Concentrazione Herfindahl-Hirschman</div><div class="chart-sub">Germania · 2006–2023 · Fonte: ECB SDW</div><div class="chart-wrap-h"><canvas id="cHHI"></canvas></div></div>
+    </div>
+
+    <table class="tbl reveal">
+      <thead><tr><th>Anno</th><th>CR5 (%)</th><th>HHI</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr><td>2006</td><td>22.0%</td><td>245</td><td style="color:var(--text-muted);font-size:12px;">Bassa concentrazione</td></tr>
+        <tr><td>2007</td><td>21.9%</td><td>252</td><td style="color:var(--text-muted);font-size:12px;">—</td></tr>
+        <tr><td>2008</td><td>22.7%</td><td>258</td><td style="color:var(--text-muted);font-size:12px;">Inizio crisi</td></tr>
+        <tr><td>2009</td><td>24.7%</td><td>265</td><td style="color:#f59e0b;font-size:12px;">↑ Post-crisi</td></tr>
+        <tr><td>2010</td><td>32.6%</td><td>298</td><td style="color:#f59e0b;font-size:12px;">↑ Consolidamento</td></tr>
+        <tr class="peak-row"><td>2011</td><td>33.5%</td><td>317</td><td>↑ Picco massimo</td></tr>
+        <tr><td>2012</td><td>33.0%</td><td>307</td><td style="color:var(--text-muted);font-size:12px;">—</td></tr>
+        <tr><td>2013</td><td>30.6%</td><td>266</td><td style="color:var(--text-muted);font-size:12px;">↓ Riduzione</td></tr>
+        <tr><td>2015</td><td>31.7%</td><td>293</td><td style="color:var(--text-muted);font-size:12px;">—</td></tr>
+        <tr><td>2017</td><td>29.7%</td><td>272</td><td style="color:var(--text-muted);font-size:12px;">↓</td></tr>
+        <tr><td>2019</td><td>28.0%</td><td>254</td><td style="color:#10b981;font-size:12px;">↓ Minimo</td></tr>
+        <tr><td>2020</td><td>29.6%</td><td>265</td><td style="color:#f59e0b;font-size:12px;">↑ Covid-19</td></tr>
+        <tr><td>2021</td><td>31.1%</td><td>276</td><td style="color:var(--text-muted);font-size:12px;">↑</td></tr>
+        <tr><td>2022</td><td>32.5%</td><td>289</td><td style="color:var(--text-muted);font-size:12px;">↑</td></tr>
+        <tr><td>2023</td><td>32.3%</td><td>287</td><td style="color:var(--text-muted);font-size:12px;">Stabile</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="sec-inner">
+    <div class="comment reveal">
+      <p>Il grafico mostra la crescita del peso delle 5 banche più grandi (CR5). Si assiste a un <strong>picco successivo alla crisi del 2008</strong>, dovuto al fallimento e/o assorbimento delle piccole banche — con CR5 che sale dal 22.7% del 2008 al 33.5% del 2011 e HHI da 258 a 317.</p>
+      <p>La <strong>decrescita successiva</strong> (fino al minimo del 2019 con CR5 al 28.0% e HHI 254) fu causata dalla cessione progressiva di asset o riduzione delle operazioni da parte delle grandi banche, in seguito alle pressioni regolamentari post-crisi.</p>
+      <p>Dal <strong>minimo del 2019</strong> si vede una nuova crescita dovuta al COVID-19, che penalizza le piccole banche, e ai tassi di interesse bassi — questi colpiscono più duramente gli istituti di dimensioni ridotte, che soffrono maggiormente la riduzione dei margini legati al tasso di interesse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 4. TREND ══════ -->
+<section class="sec-light">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-label">Sintesi</span>
+      <h2 class="sec-title">Cosa Suggeriscono i Trend</h2>
+    </div>
+    <div class="insight-grid reveal">
+      <div class="insight-card"><div class="insight-icon">🏦</div><div class="insight-title">Consolidamento</div><div class="insight-text">Il numero di istituti scende ininterrottamente da 2.084 (2006) a ~1.254 (2026 stima). Il settore si concentra su operatori più grandi e strutturati, con CR5 che passa dal 22% al 32%.</div></div>
+      <div class="insight-card"><div class="insight-icon">⚡</div><div class="insight-title">Efficienza Operativa</div><div class="insight-text">La riduzione degli sportelli da 40.282 a 17.857 riflette una razionalizzazione aggressiva dei costi fissi. Le banche chiudono filiali in aree a bassa domanda e reinvestono in canali ad alto valore aggiunto.</div></div>
+      <div class="insight-card"><div class="insight-icon">📱</div><div class="insight-title">Digitalizzazione</div><div class="insight-text">Il calo degli sportelli fisici è accelerato dalla pandemia. Il banking digitale riduce strutturalmente la domanda di infrastrutture fisiche, spostando l'interazione verso canali online e mobile.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="logo-db">DB</span><span style="font-weight:500;font-size:15px;color:rgba(255,255,255,.5);margin-left:10px;">Deutsche Bank</span></div>
+    <p class="footer-note">Progetto Universitario · Sezione 2 – Sistema Bancario · 2025</p>
+    <a href="index.html" class="footer-back"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Indice</a>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.transition='opacity .55s ease,transform .55s ease';x.target.style.opacity='1';x.target.style.transform='translateY(0)';io.unobserve(x.target);}});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(18px)';io.observe(el);});
+
+const GOLD='#c8a96e',BLUE='#3b82f6';
+const TIP={backgroundColor:'rgba(10,14,24,.96)',borderColor:'rgba(255,255,255,.08)',borderWidth:1,titleColor:'#e2e8f0',bodyColor:'#94a3b8',padding:10};
+const GRD={color:'rgba(0,0,0,.055)'};
+const SC={x:{grid:GRD,ticks:{color:'#9ca3af',font:{size:10}}},y:{grid:GRD,ticks:{color:'#9ca3af',font:{size:10}}}};
+
+const YI=[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+const IST=[2084,2041,2021,1984,1948,1930,1894,1866,1841,1807,1768,1695,1625,1583,1531,1495,1438,1386,1333,1292,1254];
+const YS=[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const SPO=[40282,39777,39531,39411,38149,37675,36239,36155,35264,34001,31974,30072,27834,26620,24060,21697,20432,19488,17857];
+const YE=[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const NEU=[9,10,10,12,15,15,15,15,15,16,16,17,17,16,19,19,21,19,18];
+const EUS=[5,7,7,18,25,25,23,22,20,18,19,17,17,17,13,13,12,11,10];
+const YC=[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
+const CR5=[22.0,21.9,22.7,24.7,32.6,33.5,33.0,30.6,32.4,31.7,31.0,29.7,29.1,28.0,29.6,31.1,32.5,32.3];
+const HHI=[245,252,258,265,298,317,307,266,301,293,286,272,263,254,265,276,289,287];
+
+new Chart('cIst',{type:'line',data:{labels:YI,datasets:[{data:IST,borderColor:GOLD,backgroundColor:'rgba(200,169,110,.08)',tension:.4,fill:true,pointRadius:2,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TIP},scales:SC}});
+new Chart('cSpo',{type:'line',data:{labels:YS,datasets:[{data:SPO,borderColor:BLUE,backgroundColor:'rgba(59,130,246,.08)',tension:.4,fill:true,pointRadius:2,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TIP},scales:SC}});
+new Chart('cEst',{type:'bar',data:{labels:YE,datasets:[{label:'Non-EU',data:NEU,backgroundColor:'rgba(200,169,110,.8)',borderRadius:3},{label:'EU',data:EUS,backgroundColor:'rgba(59,130,246,.75)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{tooltip:TIP,legend:{labels:{color:'#6b7280',font:{size:10},padding:12,boxWidth:9,boxHeight:9}}},scales:SC}});
+new Chart('cPie',{type:'doughnut',data:{labels:['Non-EU (18)','EU (10)'],datasets:[{data:[18,10],backgroundColor:['rgba(200,169,110,.88)','rgba(59,130,246,.82)'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'#6b7280',font:{size:11},padding:16}},tooltip:TIP}}});
+new Chart('cCR5',{type:'line',data:{labels:YC,datasets:[{data:CR5,borderColor:GOLD,backgroundColor:'rgba(200,169,110,.08)',tension:.4,fill:true,pointRadius:3,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TIP},scales:{...SC,y:{...SC.y,ticks:{...SC.y.ticks,callback:v=>v+'%'}}}}});
+new Chart('cHHI',{type:'line',data:{labels:YC,datasets:[{data:HHI,borderColor:BLUE,backgroundColor:'rgba(59,130,246,.08)',tension:.4,fill:true,pointRadius:3,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TIP},scales:SC}});
+</script>
+</body>
+</html>
